@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "25069081784",
+    "project_id": "synew-gym",
+    "storage_bucket": "synew-gym.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:25069081784:android:5f772f0224ab10f8d6d04d",
+        "android_client_info": {
+          "package_name": "com.example.synew_gym"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "25069081784-lnu8kple4520j37s5p1pl757e5tgh6kq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.synew_gym",
+            "certificate_hash": "d49e587a497cab395a9f7df2e35535ad11f73469"
+          }
+        },
+        {
+          "client_id": "25069081784-sg1gdnpa7tq8796cri8joc945l3ip645.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQLMyvKMzkly85sa4ygsfIViIOMRqR1xU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "25069081784-m6bu003j393vephhstnn6smhhfql0slr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "25069081784-267582jg3kiiv2kf3bptv31oalgao08r.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.synewGym"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
