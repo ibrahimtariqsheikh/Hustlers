@@ -130,8 +130,7 @@ class MyApp extends StatelessWidget {
             ),
           ),
           BlocProvider<CategoryCubit>(
-            create: (context) =>
-                CategoryCubit(productBloc: context.read<ProductBloc>()),
+            create: (context) => CategoryCubit(),
           ),
           BlocProvider<CartCubit>(
             create: (context) => CartCubit(),

@@ -7,7 +7,6 @@ class CategoryState {
   final int index;
   final List<String> labels = [
     'Men\'s Apparel',
-    'MensApparel',
     'Women\'s Apparel',
     'Men\'s Footwear',
     'Women\'s Footwear',
@@ -20,7 +19,7 @@ class CategoryState {
   });
 
   factory CategoryState.initial() {
-    return CategoryState(index: 4);
+    return CategoryState(index: 0);
   }
 
   CategoryState copyWith({

@@ -11,6 +11,7 @@ class Product extends Equatable {
   final List<String> size;
   final List<String> color;
   final double productWeight;
+  // final String category;
 
   const Product({
     required this.productId,
@@ -23,6 +24,7 @@ class Product extends Equatable {
     required this.size,
     required this.color,
     required this.productWeight,
+    // required this.category,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
@@ -37,6 +39,7 @@ class Product extends Equatable {
       size: List<String>.from(json['Size'] ?? []),
       color: List<String>.from(json['Color'] ?? []),
       productWeight: json['productWeight'] ?? 0.0,
+      // category: json['Category']['_ref'] ?? ''
     );
   }
 
@@ -52,6 +55,7 @@ class Product extends Equatable {
       'Size': size,
       'Color': color,
       'Product_Weight': productWeight,
+      // 'Category': category,
     };
   }
 
@@ -68,6 +72,7 @@ class Product extends Equatable {
       size,
       color,
       productWeight,
+      // category,
     ];
   }
 
@@ -82,6 +87,7 @@ class Product extends Equatable {
     List<String>? size,
     List<String>? color,
     double? productWeight,
+    // String? category
   }) {
     return Product(
       productId: productId ?? this.productId,
@@ -94,6 +100,7 @@ class Product extends Equatable {
       size: size ?? this.size,
       color: color ?? this.color,
       productWeight: productWeight ?? this.productWeight,
+      // category: category ?? this.category,
     );
   }
 

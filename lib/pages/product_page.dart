@@ -103,7 +103,7 @@ class ProductPage extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              product.price.toString(),
+                              '\$ ${product.price.toString()}',
                               style: Theme.of(context)
                                   .textTheme
                                   .bodyLarge!

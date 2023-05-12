@@ -61,74 +61,83 @@ class _CreatePageState extends State<CreatePage> {
                 children: [
                   Expanded(
                     flex: 9,
-                    child: ListView.builder(
-                      itemCount: state.user.workouts!.length,
-                      itemBuilder: (context, index) {
-                        return Slidable(
-                          key: Key(state.user.workouts![index].name),
-                          startActionPane: ActionPane(
-                            motion: const ScrollMotion(),
-                            children: [
-                              SlidableAction(
-                                onPressed: (context) {
-                                  context
-                                      .read<ProfileCubit>()
-                                      .selectWorkoutAsMain(
-                                        state.user.workouts![index],
-                                      );
-                                },
-                                backgroundColor: primaryColor,
-                                foregroundColor: Colors.white,
-                                icon: FontAwesomeIcons.heartCircleCheck,
-                                label: 'Select',
-                              ),
-                            ],
+                    child: state.user.workouts!.isEmpty
+                        ? const Center(
+                            child: Text(
+                            'No Workout Added',
+                            style: TextStyle(color: Colors.white),
+                          ))
+                        : ListView.builder(
+                            itemCount: state.user.workouts!.length,
+                            itemBuilder: (context, index) {
+                              return Slidable(
+                                key: Key(state.user.workouts![index].name),
+                                startActionPane: ActionPane(
+                                  motion: const ScrollMotion(),
+                                  children: [
+                                    SlidableAction(
+                                      onPressed: (context) {
+                                        context
+                                            .read<ProfileCubit>()
+                                            .selectWorkoutAsMain(
+                                              state.user.workouts![index],
+                                            );
+                                      },
+                                      backgroundColor: primaryColor,
+                                      foregroundColor: Colors.white,
+                                      icon: FontAwesomeIcons.heartCircleCheck,
+                                      label: 'Select',
+                                    ),
+                                  ],
+                                ),
+                                endActionPane: ActionPane(
+                                  motion: const ScrollMotion(),
+                                  children: [
+                                    SlidableAction(
+                                      onPressed: (context) {
+                                        context
+                                            .read<ProfileCubit>()
+                                            .deleteWorkout(
+                                              state.user.workouts![index],
+                                            );
+                                      },
+                                      backgroundColor: Colors.red,
+                                      foregroundColor: Colors.white,
+                                      icon: Icons.delete,
+                                      label: 'Delete',
+                                    ),
+                                  ],
+                                ),
+                                child: ListTile(
+                                  title: Text(
+                                    state.user.workouts![index].name,
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium,
+                                  ),
+                                  subtitle: Text(
+                                    '@${state.user.username}',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(fontSize: 10),
+                                  ),
+                                  leading: Icon(
+                                    Icons.fitness_center,
+                                    color: Theme.of(context).iconTheme.color,
+                                  ),
+                                  trailing: IconButton(
+                                    icon: Icon(
+                                      Icons.arrow_forward_ios,
+                                      color: Theme.of(context).iconTheme.color,
+                                    ),
+                                    onPressed: () => _goToWorkoutPage(
+                                      state.user.workouts![index].name,
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
                           ),
-                          endActionPane: ActionPane(
-                            motion: const ScrollMotion(),
-                            children: [
-                              SlidableAction(
-                                onPressed: (context) {
-                                  context.read<ProfileCubit>().deleteWorkout(
-                                        state.user.workouts![index],
-                                      );
-                                },
-                                backgroundColor: Colors.red,
-                                foregroundColor: Colors.white,
-                                icon: Icons.delete,
-                                label: 'Delete',
-                              ),
-                            ],
-                          ),
-                          child: ListTile(
-                            title: Text(
-                              state.user.workouts![index].name,
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
-                            subtitle: Text(
-                              '@${state.user.username}',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(fontSize: 10),
-                            ),
-                            leading: Icon(
-                              Icons.fitness_center,
-                              color: Theme.of(context).iconTheme.color,
-                            ),
-                            trailing: IconButton(
-                              icon: Icon(
-                                Icons.arrow_forward_ios,
-                                color: Theme.of(context).iconTheme.color,
-                              ),
-                              onPressed: () => _goToWorkoutPage(
-                                state.user.workouts![index].name,
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
                   ),
                   Expanded(
                       flex: 1,

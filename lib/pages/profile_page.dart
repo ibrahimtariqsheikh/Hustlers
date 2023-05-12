@@ -334,7 +334,7 @@ class StepsCard extends StatelessWidget {
                           .bodyLarge!
                           .copyWith(fontSize: 16)),
                   Text(
-                      '${double.parse(state.healthData.distanceWalking).toStringAsFixed(2)} KM',
+                      '${state.healthData.distanceWalking} KM', //!!!!!!!!!!!!!!!!!!!
                       style: Theme.of(context).textTheme.bodyMedium),
                   const SizedBox(
                     height: 10,

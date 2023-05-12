@@ -42,26 +42,26 @@ class WorkoutDay extends StatelessWidget {
                 },
               ),
               const SizedBox(height: 20),
-              Builder(
-                builder: (context) {
-                  List<Widget> exercises = [];
+              BlocConsumer<WorkoutCubit, WorkoutState>(
+                  listener: (context, state) {
+                print('listening change in add excercise');
+              }, builder: (context, state) {
+                List<Widget> exercises = [];
+                for (int i = 0;
+                    i <
+                        (workout.exerciseData[workoutIndex].exercises?.length ??
+                            0);
+                    i++) {
+                  exercises.add(ExerciseWidget(
+                    workoutIndex: workoutIndex,
+                    exerciseIndex: i,
+                  ));
+                }
 
-                  for (int i = 0;
-                      i <
-                          (workout.exerciseData[workoutIndex].exercises
-                                  ?.length ??
-                              0);
-                      i++) {
-                    exercises.add(ExerciseWidget(
-                      workoutIndex: workoutIndex,
-                      exerciseIndex: i,
-                    ));
-                  }
-                  return Column(
-                    children: exercises,
-                  );
-                },
-              ),
+                return Column(
+                  children: exercises,
+                );
+              }),
               MyButton(
                 buttonText: 'Add Exercise',
                 buttonColor: primaryColor,

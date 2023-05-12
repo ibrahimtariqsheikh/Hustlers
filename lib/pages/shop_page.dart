@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,6 +20,13 @@ class ShopPage extends StatefulWidget {
 }
 
 class _ShopPageState extends State<ShopPage> {
+  @override
+  void initState() {
+    print("Init state called");
+    context.read<ProductBloc>().add(const FetchAllProductsEvent());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -148,6 +154,9 @@ class _CategoryButtonState extends State<CategoryButton> {
             context
                 .read<CategoryCubit>()
                 .categoryButtonPressed(widget.index, widget.label);
+            context
+                .read<ProductBloc>()
+                .add(ChangeSelectedProduct(label: widget.label));
           },
           child: Container(
             decoration: BoxDecoration(
@@ -175,24 +184,38 @@ class ShoppingOptions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List<Product> products = context.read<ProductBloc>().state.selectedProducts;
-
     return Padding(
       padding: const EdgeInsets.only(top: 20),
-      child: GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: products.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 0.6,
-          crossAxisSpacing: 12,
-          mainAxisSpacing: 20,
-        ),
-        itemBuilder: (BuildContext context, int index) {
-          return ProductCard(
-            product: products[index],
-          );
+      child: BlocConsumer<ProductBloc, ProductState>(
+        listener: (context, state) {
+          if (state.productStatus == ProductStatus.error) {
+            errorDialog(context, state.error);
+          }
+        },
+        builder: (context, state) {
+          if (state.selectedProducts.isEmpty) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return Builder(builder: (context) {
+            return GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: state.selectedProducts.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 0.6,
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 20,
+              ),
+              itemBuilder: (BuildContext context, int index) {
+                return ProductCard(
+                  product: state.selectedProducts[index],
+                );
+              },
+            );
+          });
         },
       ),
     );
@@ -223,18 +246,20 @@ class ProductCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            height: size.height / 4.2,
-            width: size.width / 2.4,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              color: Theme.of(context).colorScheme.onTertiary,
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(15),
-              child: Image.network(
-                product.imageURL[0],
-                fit: BoxFit.cover,
+          Expanded(
+            child: Container(
+              height: size.height / 4.2,
+              width: size.width / 2.4,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                color: Theme.of(context).colorScheme.onTertiary,
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(15),
+                child: Image.network(
+                  product.imageURL[0],
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
@@ -246,7 +271,7 @@ class ProductCard extends StatelessWidget {
             style:
                 Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 12),
           ),
-          Text(product.price.toString()),
+          Text('\$ ${product.price.toString()}'),
         ],
       ),
     );

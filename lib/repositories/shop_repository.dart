@@ -8,10 +8,10 @@ class ShopRepository {
     required this.sanityApiServices,
   });
 
-  Future<List<Product>> fetchAll() async {
-    List<Product> products = await sanityApiServices.fetchData(fetchAllQuery);
-    return products;
-  }
+  // Future<List<Product>> fetchAll() async {
+  //   List<Product> products = await sanityApiServices.fetchData(fetchAllQuery);
+  //   return products;
+  // }
 
   Future<List<Product>> fetchMensApparel() async {
     List<Product> products =

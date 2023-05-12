@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:synew_gym/models/products.dart';
 import 'package:synew_gym/models/custom_error.dart';
 import 'package:synew_gym/repositories/shop_repository.dart';
-
 part 'product_event.dart';
 part 'product_state.dart';
 
@@ -36,6 +35,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
           selectedProducts: mensApparel,
         ));
       } catch (e) {
+        print("error in data fetching error : $e");
         emit(state.copyWith(productStatus: ProductStatus.error));
       }
     });
@@ -50,10 +50,10 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       } else if (event.label == 'Men\'s Footwear') {
         selectedProduct = List.from(state.mensFootwear);
       } else if (event.label == 'Women\'s Footwear') {
-        selectedProduct = List.from(state.mensFootwear);
+        selectedProduct = List.from(state.womensFootwear);
       } else if (event.label == 'Accessories') {
         selectedProduct = List.from(state.accessoryItems);
-      } else if (event.label == 'Nutrtion') {
+      } else if (event.label == 'Nutrition') {
         selectedProduct = List.from(state.nutritionItems);
       }
       emit(state.copyWith(
@@ -61,19 +61,17 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         selectedProducts: selectedProduct,
       ));
     });
-    //   on<FetchProductsBySearchEvent>((event, emit) async {
-    //     emit(state.copyWith(productStatus: ProductStatus.loading));
-    //     try {
-    //       final List<Product> products = await shopRepository.fetchAll();
 
-    //       emit(state.copyWith(
-    //         productStatus: ProductStatus.loaded,
-    //         products: products,
-    //       ));
-    //     } catch (e) {
-    //       emit(state.copyWith(productStatus: ProductStatus.error));
-    //     }
-    //   });
-    // }
+    on<FetchProductsBySearchEvent>((event, emit) async {
+      emit(state.copyWith(productStatus: ProductStatus.loading));
+      List<Product> selectedProducts = [];
+      if (event.query != '') {
+        //logic yet to be implemented
+        emit(state.copyWith(
+          productStatus: ProductStatus.loaded,
+          selectedProducts: selectedProducts,
+        ));
+      }
+    });
   }
 }

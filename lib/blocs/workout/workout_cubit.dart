@@ -18,8 +18,9 @@ class WorkoutCubit extends Cubit<WorkoutState> {
   }) : super(WorkoutState.initial());
 
   void addEmptyExercise(int dayIndex) {
+    emit(state.copyWith(status: WorkoutStatus.loading));
     Workout workout = addExercise(dayIndex, Exercise.initial());
-    emit(state.copyWith(workout: workout));
+    emit(state.copyWith(workout: workout, status: WorkoutStatus.loaded));
   }
 
   void updateWorkoutName(String name) {

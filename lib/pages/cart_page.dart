@@ -112,7 +112,7 @@ class CartPage extends StatelessWidget {
                       flex: 6,
                     ),
                     Text(
-                      '${context.read<CartCubit>().state.totalPayment} PKR',
+                      '${context.read<CartCubit>().state.totalPayment} USD',
                       style: Theme.of(context).textTheme.bodyLarge,
                     ),
                     const Spacer(),
@@ -198,7 +198,7 @@ class CartItem extends StatelessWidget {
                   SizedBox(
                     height: size.height * .005,
                   ),
-                  Text('\$${product.price}'),
+                  Text('\$ ${product.price}'),
                   SizedBox(
                     height: size.height * .01,
                   ),
