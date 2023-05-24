@@ -35,7 +35,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
           selectedProducts: mensApparel,
         ));
       } catch (e) {
-        print("error in data fetching error : $e");
         emit(state.copyWith(productStatus: ProductStatus.error));
       }
     });

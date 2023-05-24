@@ -245,7 +245,7 @@ class ProductPage extends StatelessWidget {
                                   buttonAction: () {
                                     context.read<CartCubit>().addToCart();
                                     Navigator.of(context)
-                                        .push(MaterialPageRoute(
+                                        .pushReplacement(MaterialPageRoute(
                                       builder: (context) => const CartPage(),
                                     ));
                                   },

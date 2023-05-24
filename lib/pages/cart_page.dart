@@ -19,18 +19,15 @@ class CartPage extends StatelessWidget {
     Map<String, dynamic>? paymentIntent;
     Size size = MediaQuery.of(context).size;
 
-    List<CartProduct> cartProducts =
-        context.read<CartCubit>().state.cartProducts;
-
     displayPaymentSheet() async {
       try {
         await Stripe.instance.presentPaymentSheet().then((value) {
           showDialog(
               context: context,
-              builder: (_) => AlertDialog(
+              builder: (_) => const AlertDialog(
                     content: Column(
                       mainAxisSize: MainAxisSize.min,
-                      children: const [
+                      children: [
                         Icon(
                           Icons.check_circle,
                           color: Colors.green,
@@ -89,51 +86,60 @@ class CartPage extends StatelessWidget {
       appBar: AppBar(title: const Text('My Cart')),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Container(
-            margin: const EdgeInsets.only(top: 20),
-            padding: EdgeInsets.symmetric(horizontal: size.width * .03),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(
-                  children: List.generate(cartProducts.length,
-                      (index) => CartItem(product: cartProducts[index])),
-                ),
-                const MyDivider(horizontalPadding: 0, verticalPadding: 20),
-                Row(
-                  children: [
-                    const Spacer(),
-                    Text(
-                      'Total Sum',
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                    const Spacer(
-                      flex: 6,
-                    ),
-                    Text(
-                      '${context.read<CartCubit>().state.totalPayment} USD',
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                    const Spacer(),
-                  ],
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                MyButton(
-                  buttonText: 'Pay Now',
-                  buttonColor: primaryColor,
-                  buttonWidth: size.width * .8,
-                  buttonHeight: 55,
-                  isSubmitting: false,
-                  isOutlined: false,
-                  buttonAction: () async {
-                    await makePayment();
-                  },
-                )
-              ],
-            ),
+          child: BlocBuilder<CartCubit, CartState>(
+            builder: (context, state) {
+              if (state.cartProducts.isEmpty) {
+                return Center(child: Text('Cart is empty'));
+              } else {
+                return Container(
+                  margin: const EdgeInsets.only(top: 20),
+                  padding: EdgeInsets.symmetric(horizontal: size.width * .03),
+                  child: Column(
+                    children: [
+                      Column(
+                        children: List.generate(
+                            state.cartProducts.length,
+                            (index) =>
+                                CartItem(product: state.cartProducts[index])),
+                      ),
+                      const MyDivider(
+                          horizontalPadding: 0, verticalPadding: 20),
+                      Row(
+                        children: [
+                          const Spacer(),
+                          Text(
+                            'Total Sum',
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                          const Spacer(
+                            flex: 6,
+                          ),
+                          Text(
+                            '${context.read<CartCubit>().state.totalPayment.toStringAsFixed(2)} USD',
+                            style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                          const Spacer(),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      MyButton(
+                        buttonText: 'Pay Now',
+                        buttonColor: primaryColor,
+                        buttonWidth: size.width * .8,
+                        buttonHeight: 55,
+                        isSubmitting: false,
+                        isOutlined: false,
+                        buttonAction: () async {
+                          await makePayment();
+                        },
+                      )
+                    ],
+                  ),
+                );
+              }
+            },
           ),
         ),
       ),
@@ -209,7 +215,11 @@ class CartItem extends StatelessWidget {
                         backgroundColor:
                             Theme.of(context).colorScheme.onTertiary,
                         child: IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              context
+                                  .read<CartCubit>()
+                                  .changeQuantity(product, false);
+                            },
                             icon: Icon(
                               size: 15,
                               CupertinoIcons.minus,
@@ -221,7 +231,7 @@ class CartItem extends StatelessWidget {
                         maxRadius: 12,
                         backgroundColor: Theme.of(context).cardColor,
                         child: Text(
-                          '1',
+                          '${product.quantity}',
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ),
@@ -230,7 +240,11 @@ class CartItem extends StatelessWidget {
                         backgroundColor:
                             Theme.of(context).colorScheme.onTertiary,
                         child: IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              context
+                                  .read<CartCubit>()
+                                  .changeQuantity(product, true);
+                            },
                             icon: Icon(
                               size: 15,
                               CupertinoIcons.add,
@@ -243,7 +257,9 @@ class CartItem extends StatelessWidget {
                         maxRadius: 18,
                         backgroundColor: Colors.redAccent,
                         child: IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              context.read<CartCubit>().deleteFromCart(product);
+                            },
                             icon: const Icon(
                               size: 21,
                               Icons.delete,

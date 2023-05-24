@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
 
+// ignore: must_be_immutable
 class CartProduct extends Equatable {
   final String productId;
   final String productName;
@@ -10,8 +11,9 @@ class CartProduct extends Equatable {
   final String imageURL;
   final String selectedSize;
   final String selectedColor;
+  int quantity;
 
-  const CartProduct({
+  CartProduct({
     required this.productId,
     required this.productName,
     required this.isWishlist,
@@ -20,6 +22,7 @@ class CartProduct extends Equatable {
     required this.imageURL,
     required this.selectedSize,
     required this.selectedColor,
+    required this.quantity,
   });
 
   @override
@@ -32,20 +35,21 @@ class CartProduct extends Equatable {
       imageURL,
       selectedSize,
       selectedColor,
+      quantity,
     ];
   }
 
   factory CartProduct.initial() {
-    return const CartProduct(
-      productId: '',
-      productName: '',
-      productDescription: '',
-      isWishlist: false,
-      price: 0,
-      imageURL: '',
-      selectedSize: '',
-      selectedColor: '',
-    );
+    return CartProduct(
+        productId: '',
+        productName: '',
+        productDescription: '',
+        isWishlist: false,
+        price: 0,
+        imageURL: '',
+        selectedSize: '',
+        selectedColor: '',
+        quantity: 1);
   }
 
   CartProduct copyWith({
@@ -57,6 +61,7 @@ class CartProduct extends Equatable {
     String? imageURL,
     String? selectedSize,
     String? selectedColor,
+    int? quantity,
   }) {
     return CartProduct(
       productId: productId ?? this.productId,
@@ -67,6 +72,7 @@ class CartProduct extends Equatable {
       imageURL: imageURL ?? this.imageURL,
       selectedSize: selectedSize ?? this.selectedSize,
       selectedColor: selectedColor ?? this.selectedColor,
+      quantity: quantity ?? this.quantity,
     );
   }
 

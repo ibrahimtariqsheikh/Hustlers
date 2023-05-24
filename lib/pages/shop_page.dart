@@ -7,6 +7,7 @@ import 'package:synew_gym/blocs/category_toggle/category_state.dart';
 import 'package:synew_gym/blocs/product/product_bloc.dart';
 import 'package:synew_gym/constants/colors.dart';
 import 'package:synew_gym/models/products.dart';
+import 'package:synew_gym/pages/cart_page.dart';
 import 'package:synew_gym/pages/product_page.dart';
 import 'package:synew_gym/widgets/error_dialog.dart';
 import 'package:synew_gym/widgets/my_text_field.dart';
@@ -22,7 +23,6 @@ class ShopPage extends StatefulWidget {
 class _ShopPageState extends State<ShopPage> {
   @override
   void initState() {
-    print("Init state called");
     context.read<ProductBloc>().add(const FetchAllProductsEvent());
     super.initState();
   }
@@ -37,11 +37,11 @@ class _ShopPageState extends State<ShopPage> {
           }
         },
         builder: (context, state) {
-          return SingleChildScrollView(
+          return const SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+              padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
               child: Column(
-                children: const [
+                children: [
                   ExploreSearchBar(),
                   CategoriesOptions(),
                   ShoppingOptions(),
@@ -66,11 +66,26 @@ class ExploreSearchBar extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          'Explore',
-          style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                fontSize: 20,
+        Padding(
+          padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Explore',
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      fontSize: 20,
+                    ),
               ),
+              GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const CartPage(),
+                    ));
+                  },
+                  child: const Icon(CupertinoIcons.cart_fill)),
+            ],
+          ),
         ),
         const SizedBox(
           height: 10,

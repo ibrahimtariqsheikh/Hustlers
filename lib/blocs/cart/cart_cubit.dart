@@ -24,6 +24,18 @@ class CartCubit extends Cubit<CartState> {
   void addToCart() {
     emit(state.copyWith(cartStatus: CartStatus.loading));
     List<CartProduct> products = List.from(state.cartProducts);
+    for (CartProduct product in products) {
+      if (product.productId == state.currentProduct.productId) {
+        product.quantity += 1;
+        emit(state.copyWith(
+          cartProducts: products,
+          totalPayment: state.totalPayment + state.currentProduct.price,
+          cartStatus: CartStatus.loaded,
+          currentProduct: CartProduct.initial(),
+        ));
+        return;
+      }
+    }
     products.add(state.currentProduct);
     emit(state.copyWith(
       cartProducts: products,
@@ -31,6 +43,45 @@ class CartCubit extends Cubit<CartState> {
       cartStatus: CartStatus.loaded,
       currentProduct: CartProduct.initial(),
     ));
+  }
+
+  void changeQuantity(CartProduct productToChange, bool increment) {
+    print(increment);
+    List<CartProduct> products = List.from(state.cartProducts);
+    for (CartProduct product in products) {
+      if (product.productId == productToChange.productId) {
+        if (product.quantity <= 1 && !increment) {
+          deleteFromCart(product);
+          return;
+        } else {
+          increment ? product.quantity += 1 : product.quantity -= 1;
+        }
+      }
+      break;
+    }
+    emit(state.copyWith(
+      cartProducts: products,
+      totalPayment: increment
+          ? state.totalPayment + productToChange.price
+          : state.totalPayment - productToChange.price,
+      cartStatus: CartStatus.loaded,
+      currentProduct: CartProduct.initial(),
+    ));
+  }
+
+  void deleteFromCart(CartProduct productToBeDeleted) {
+    emit(state.copyWith(cartStatus: CartStatus.loading));
+    List<CartProduct> updatedProducts;
+    updatedProducts = state.cartProducts
+        .where((product) => product.productId != productToBeDeleted.productId)
+        .toList();
+    emit(state.copyWith(
+      cartProducts: updatedProducts,
+      totalPayment: state.totalPayment -
+          (productToBeDeleted.price * productToBeDeleted.quantity),
+      cartStatus: CartStatus.loaded,
+    ));
+    print('product ${productToBeDeleted.productName} is deleted');
   }
 
   void selectSize(String size) {

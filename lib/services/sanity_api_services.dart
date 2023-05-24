@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:synew_gym/models/products.dart';
-import 'package:synew_gym/widgets/error_dialog.dart';
 
 class SanityApiServices {
   Future<List<Product>> fetchData(String query) async {
@@ -18,7 +17,6 @@ class SanityApiServices {
       }
       return productItems;
     } else {
-      print('failed to fetch data for $query');
       throw Exception('Failed to load product items');
     }
   }
