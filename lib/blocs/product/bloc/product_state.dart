@@ -18,6 +18,7 @@ class ProductState extends Equatable {
   final List<Product> nutritionItems;
   final List<Product> accessoryItems;
   final List<Product> selectedProducts;
+  final List<Category> categories;
   final CustomError error;
 
   const ProductState({
@@ -30,20 +31,21 @@ class ProductState extends Equatable {
     required this.nutritionItems,
     required this.error,
     required this.selectedProducts,
+    required this.categories,
   });
 
   factory ProductState.initial() {
     return const ProductState(
-      productStatus: ProductStatus.initial,
-      mensApparel: [],
-      womensApparel: [],
-      mensFootwear: [],
-      womensFootwear: [],
-      accessoryItems: [],
-      nutritionItems: [],
-      selectedProducts: [],
-      error: CustomError(),
-    );
+        productStatus: ProductStatus.initial,
+        mensApparel: [],
+        womensApparel: [],
+        mensFootwear: [],
+        womensFootwear: [],
+        accessoryItems: [],
+        nutritionItems: [],
+        selectedProducts: [],
+        error: CustomError(),
+        categories: []);
   }
 
   @override
@@ -57,6 +59,7 @@ class ProductState extends Equatable {
         nutritionItems,
         selectedProducts,
         error,
+        categories,
       ];
 
   ProductState copyWith({
@@ -69,6 +72,7 @@ class ProductState extends Equatable {
     List<Product>? nutritionItems,
     List<Product>? selectedProducts,
     CustomError? error,
+    List<Category>? categories,
   }) {
     return ProductState(
       productStatus: productStatus ?? this.productStatus,
@@ -80,6 +84,7 @@ class ProductState extends Equatable {
       nutritionItems: nutritionItems ?? this.nutritionItems,
       selectedProducts: selectedProducts ?? this.selectedProducts,
       error: error ?? this.error,
+      categories: categories ?? this.categories,
     );
   }
 

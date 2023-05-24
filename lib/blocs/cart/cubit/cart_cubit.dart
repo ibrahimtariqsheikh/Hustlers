@@ -17,6 +17,7 @@ class CartCubit extends Cubit<CartState> {
       productName: product.productName,
       imageURL: product.imageURL[0],
       price: product.price,
+      quantity: 1,
     );
     emit(state.copyWith(currentProduct: currentProduct));
   }
@@ -49,14 +50,14 @@ class CartCubit extends Cubit<CartState> {
     List<CartProduct> products = List.from(state.cartProducts);
     for (CartProduct product in products) {
       if (product.productId == productToChange.productId) {
-        if (product.quantity <= 1 && !increment) {
+        if (product.quantity == 1 && !increment) {
           deleteFromCart(product);
           return;
         } else {
           increment ? product.quantity += 1 : product.quantity -= 1;
         }
+        break;
       }
-      break;
     }
     emit(state.copyWith(
       cartProducts: products,

@@ -70,7 +70,8 @@ class ProfileCubit extends Cubit<ProfileState> {
     DateTime startDate = DateTime.now().subtract(const Duration(days: 1000));
     DateTime endDate = DateTime.now();
 
-    bool isAuthorized = await _health.requestAuthorization(_types);
+    bool isAuthorized = false;
+    //await _health.requestAuthorization(_types);
 
     if (isAuthorized) {
       List<HealthDataPoint> healthDataPoints =

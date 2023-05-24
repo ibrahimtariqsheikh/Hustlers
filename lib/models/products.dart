@@ -11,7 +11,7 @@ class Product extends Equatable {
   final List<String> size;
   final List<String> color;
   final double productWeight;
-  // final String category;
+  final String category;
 
   const Product({
     required this.productId,
@@ -24,23 +24,22 @@ class Product extends Equatable {
     required this.size,
     required this.color,
     required this.productWeight,
-    // required this.category,
+    required this.category,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
-      productId: json['_id'] ?? '',
-      productName: json['Product_Name'] ?? '',
-      productDescription: json['Product_Description'] ?? '',
-      stockQty: json['Stock_Qty']?.toInt() ?? 0,
-      price: json['Price']?.toDouble() ?? 0.0,
-      rating: json['Rating']?.toDouble() ?? 0.0,
-      imageURL: List<String>.from(json['Image_URL'] ?? []),
-      size: List<String>.from(json['Size'] ?? []),
-      color: List<String>.from(json['Color'] ?? []),
-      productWeight: json['productWeight'] ?? 0.0,
-      // category: json['Category']['_ref'] ?? ''
-    );
+        productId: json['_id'] ?? '',
+        productName: json['Product_Name'] ?? '',
+        productDescription: json['Product_Description'] ?? '',
+        stockQty: json['Stock_Qty']?.toInt() ?? 0,
+        price: json['Price']?.toDouble() ?? 0.0,
+        rating: json['Rating']?.toDouble() ?? 0.0,
+        imageURL: List<String>.from(json['Image_URL'] ?? []),
+        size: List<String>.from(json['Size'] ?? []),
+        color: List<String>.from(json['Color'] ?? []),
+        productWeight: json['productWeight'] ?? 0.0,
+        category: json['Category']?['_ref'] ?? '');
   }
 
   Map<String, dynamic> toJson() {
@@ -55,7 +54,7 @@ class Product extends Equatable {
       'Size': size,
       'Color': color,
       'Product_Weight': productWeight,
-      // 'Category': category,
+      'Category': category,
     };
   }
 
@@ -72,23 +71,22 @@ class Product extends Equatable {
       size,
       color,
       productWeight,
-      // category,
+      category,
     ];
   }
 
-  Product copyWith({
-    String? productId,
-    String? productName,
-    String? productDescription,
-    int? stockQty,
-    double? price,
-    double? rating,
-    List<String>? imageURL,
-    List<String>? size,
-    List<String>? color,
-    double? productWeight,
-    // String? category
-  }) {
+  Product copyWith(
+      {String? productId,
+      String? productName,
+      String? productDescription,
+      int? stockQty,
+      double? price,
+      double? rating,
+      List<String>? imageURL,
+      List<String>? size,
+      List<String>? color,
+      double? productWeight,
+      String? category}) {
     return Product(
       productId: productId ?? this.productId,
       productName: productName ?? this.productName,
@@ -100,7 +98,7 @@ class Product extends Equatable {
       size: size ?? this.size,
       color: color ?? this.color,
       productWeight: productWeight ?? this.productWeight,
-      // category: category ?? this.category,
+      category: category ?? this.category,
     );
   }
 

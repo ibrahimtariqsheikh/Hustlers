@@ -6,3 +6,4 @@ String nutritionQuery = '*[_type == "Nutrition"]';
 String accessoriesQuery = '*[_type == "Gym_Accessories"]';
 String fetchAllQuery =
     '*[_type == "Mens_Apparel" || _type == "Womens_Apparel" || _type == "Mens_Shoe" || _type == "Womens_Shoe" || _type == "Nutrition" || _type == "Gym_Accessories"]';
+String fetchCategoryQuery = '*[_type == "Category"]';

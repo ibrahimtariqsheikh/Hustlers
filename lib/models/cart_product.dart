@@ -48,7 +48,7 @@ class CartProduct extends Equatable {
         imageURL: '',
         selectedSize: '',
         selectedColor: '',
-        quantity: 1);
+        quantity: 0);
   }
 
   CartProduct copyWith({

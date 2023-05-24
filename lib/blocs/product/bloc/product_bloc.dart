@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:synew_gym/models/category.dart';
 import 'package:synew_gym/models/products.dart';
 import 'package:synew_gym/models/custom_error.dart';
 import 'package:synew_gym/blocs/product/repository/shop_repository.dart';
@@ -24,6 +25,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         final List<Product> accessories =
             await shopRepository.fetchAccessories();
         final List<Product> nutrition = await shopRepository.fetchNutrition();
+        final List<Category> categories = await shopRepository.fetchCategory();
         emit(state.copyWith(
           productStatus: ProductStatus.loaded,
           mensApparel: mensApparel,
@@ -33,6 +35,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
           accessoryItems: accessories,
           nutritionItems: nutrition,
           selectedProducts: mensApparel,
+          categories: categories,
         ));
       } catch (e) {
         emit(state.copyWith(productStatus: ProductStatus.error));
@@ -64,7 +67,23 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     on<FetchProductsBySearchEvent>((event, emit) async {
       emit(state.copyWith(productStatus: ProductStatus.loading));
       List<Product> selectedProducts = [];
+      String id = '';
       if (event.query != '') {
+        for (Category category in state.categories) {
+          if (category.categoryName
+              .toLowerCase()
+              .contains(event.query.toLowerCase())) {
+            id = category.categoryId;
+          }
+        }
+        selectedProducts.addAll(searchProducts(state.mensApparel, id));
+        selectedProducts.addAll(searchProducts(state.womensApparel, id));
+        selectedProducts.addAll(searchProducts(state.accessoryItems, id));
+        selectedProducts.addAll(searchProducts(state.mensFootwear, id));
+        selectedProducts.addAll(searchProducts(state.womensFootwear, id));
+        selectedProducts.addAll(searchProducts(state.nutritionItems, id));
+        print(selectedProducts);
+
         emit(state.copyWith(
           productStatus: ProductStatus.loaded,
           selectedProducts: selectedProducts,
@@ -72,4 +91,14 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       }
     });
   }
+}
+
+List<Product> searchProducts(List<Product> products, String catID) {
+  List<Product> selectedProducts = [];
+  for (Product product in products) {
+    if (product.category == catID) {
+      selectedProducts.add(product);
+    }
+  }
+  return selectedProducts;
 }
