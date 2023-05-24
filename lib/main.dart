@@ -5,27 +5,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:synew_gym/app_theme.dart';
-import 'package:synew_gym/blocs/auth/auth_bloc.dart';
-import 'package:synew_gym/blocs/auth_landing/auth_landing_cubit.dart';
-import 'package:synew_gym/blocs/cart/cart_cubit.dart';
-import 'package:synew_gym/blocs/category_toggle/category_cubit.dart';
-import 'package:synew_gym/blocs/chat/chat_bloc.dart';
-import 'package:synew_gym/blocs/nutrition/nutrition_bloc.dart';
-import 'package:synew_gym/blocs/product/product_bloc.dart';
-import 'package:synew_gym/blocs/profile/profile_cubit.dart';
-import 'package:synew_gym/blocs/signin/signin_cubit.dart';
-import 'package:synew_gym/blocs/signup/signup_cubit.dart';
-import 'package:synew_gym/blocs/tab_bar/tab_bar_cubit.dart';
-import 'package:synew_gym/blocs/workout/workout_cubit.dart';
+import 'package:synew_gym/blocs/auth/bloc/auth_bloc.dart';
+import 'package:synew_gym/blocs/auth_landing/cubit/auth_landing_cubit.dart';
+import 'package:synew_gym/blocs/cart/cubit/cart_cubit.dart';
+
+import 'package:synew_gym/blocs/category_toggle/cubit/category_cubit.dart';
+import 'package:synew_gym/blocs/chat/bloc/chat_bloc.dart';
+import 'package:synew_gym/blocs/friends/bloc/friends_bloc.dart';
+import 'package:synew_gym/blocs/nutrition/bloc/nutrition_bloc.dart';
+import 'package:synew_gym/blocs/product/bloc/product_bloc.dart';
+import 'package:synew_gym/blocs/profile/cubit/profile_cubit.dart';
+import 'package:synew_gym/blocs/signin/cubit/signin_cubit.dart';
+import 'package:synew_gym/blocs/signup/cubit/signup_cubit.dart';
+import 'package:synew_gym/blocs/tab_bar/cubit/tab_bar_cubit.dart';
+import 'package:synew_gym/blocs/workout/cubit/workout_cubit.dart';
 import 'package:synew_gym/build_routes.dart';
 import 'package:synew_gym/pages/splash_page.dart';
-import 'package:synew_gym/repositories/auth_repository.dart';
-import 'package:synew_gym/repositories/message_repository.dart';
-import 'package:synew_gym/repositories/nutrition_repository.dart';
-import 'package:synew_gym/repositories/shop_repository.dart';
-import 'package:synew_gym/repositories/user_repository.dart';
-import 'package:synew_gym/services/nutrition_api_services.dart';
-import 'package:synew_gym/services/sanity_api_services.dart';
+import 'package:synew_gym/blocs/auth/repository/auth_repository.dart';
+import 'package:synew_gym/blocs/chat/repository/message_repository.dart';
+import 'package:synew_gym/blocs/nutrition/repository/nutrition_repository.dart';
+import 'package:synew_gym/blocs/product/repository/shop_repository.dart';
+import 'package:synew_gym/blocs/profile/repository/user_repository.dart';
+import 'package:synew_gym/blocs/nutrition/services/nutrition_api_services.dart';
+import 'package:synew_gym/blocs/product/services/sanity_api_services.dart';
 import '.env';
 import 'firebase_options.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
@@ -135,13 +137,16 @@ class MyApp extends StatelessWidget {
           BlocProvider<CartCubit>(
             create: (context) => CartCubit(),
           ),
+          BlocProvider<FriendsBloc>(
+            create: (context) => FriendsBloc(),
+          ),
         ],
         child: MaterialApp(
           title: 'Hustlers',
           key: key,
           theme: AppTheme.light(),
           darkTheme: AppTheme.dark(),
-          themeMode: ThemeMode.dark,
+          themeMode: ThemeMode.system,
           onGenerateRoute: buildRoutes,
           debugShowCheckedModeBanner: false,
           debugShowMaterialGrid: false,

@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:synew_gym/app_theme.dart';
-import 'package:synew_gym/blocs/auth/auth_bloc.dart';
-import 'package:synew_gym/blocs/nutrition/nutrition_bloc.dart';
-import 'package:synew_gym/blocs/profile/profile_cubit.dart';
-import 'package:synew_gym/blocs/tab_bar/tab_bar_cubit.dart';
-import 'package:synew_gym/blocs/tab_bar/tab_bar_state.dart';
+import 'package:synew_gym/blocs/auth/bloc/auth_bloc.dart';
+import 'package:synew_gym/blocs/nutrition/bloc/nutrition_bloc.dart';
+import 'package:synew_gym/blocs/profile/cubit/profile_cubit.dart';
+import 'package:synew_gym/blocs/tab_bar/cubit/tab_bar_cubit.dart';
+import 'package:synew_gym/blocs/tab_bar/cubit/tab_bar_state.dart';
 import 'package:synew_gym/pages/messages_page.dart';
 import 'package:synew_gym/pages/profile_page.dart';
 import 'package:synew_gym/pages/create_page.dart';
@@ -19,7 +19,7 @@ final children = [
   'Messages',
   'Workouts',
   'Shop',
-  'Profile',
+  'Today',
 ];
 
 class TabBarPage extends StatefulWidget {
@@ -50,7 +50,6 @@ class _TabBarPageState extends State<TabBarPage> {
       builder: (context, state) {
         final bloc = BlocProvider.of<TabBarCubit>(context);
         return Scaffold(
-          appBar: _createAppBar(context, bloc.state.index),
           body: _createBody(context, bloc.state.index),
           bottomNavigationBar: _BottomNavigationBar(
             onItemSelected: bloc.state.index,
@@ -59,15 +58,6 @@ class _TabBarPageState extends State<TabBarPage> {
       },
     );
   }
-}
-
-PreferredSizeWidget _createAppBar(BuildContext context, int index) {
-  return AppBar(
-    automaticallyImplyLeading: false,
-    title: Text(
-      children[index],
-    ),
-  );
 }
 
 Widget _createBody(BuildContext context, int index) {
@@ -113,12 +103,12 @@ class __BottomNavigationBarState extends State<_BottomNavigationBar> {
           child:
               BlocBuilder<TabBarCubit, TabBarState>(builder: (context, state) {
             return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 _NavigationBarItem(
                   index: 0,
                   lable: children[0],
-                  icon: CupertinoIcons.home,
+                  icon: FontAwesomeIcons.nutritionix,
                   isSelected: (state.index == 0),
                   onTap: handleItemSelected,
                 ),
@@ -132,7 +122,7 @@ class __BottomNavigationBarState extends State<_BottomNavigationBar> {
                 _NavigationBarItem(
                   index: 2,
                   lable: children[2],
-                  icon: CupertinoIcons.add_circled_solid,
+                  icon: Icons.fitness_center,
                   isSelected: (state.index == 2),
                   onTap: handleItemSelected,
                 ),

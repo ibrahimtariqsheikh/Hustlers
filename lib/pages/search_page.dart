@@ -1,27 +1,27 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:synew_gym/blocs/auth/bloc/auth_bloc.dart';
 import 'package:synew_gym/blocs/nutrition/bloc/nutrition_bloc.dart';
+import 'package:synew_gym/blocs/profile/cubit/profile_cubit.dart';
 import 'package:synew_gym/models/food.dart';
 import 'package:synew_gym/widgets/my_text_field.dart';
 
-class CaloriesPage extends StatelessWidget {
-  static const String routeName = '/calories';
-  final String title;
-  const CaloriesPage({super.key, required this.title});
+class SearchPage extends StatelessWidget {
+  static const String routeName = '/serach';
+
+  const SearchPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Search Foods'),
+        title: const Text('Add Friends'),
       ),
       body: SafeArea(
         child: Column(
           children: [
             _buildSearchBar(context),
-            _buildFoodList(context, title.toLowerCase().trim()),
+            _buildSearchList(context),
           ],
         ),
       ),
@@ -31,30 +31,27 @@ class CaloriesPage extends StatelessWidget {
 
 Widget _buildSearchBar(BuildContext context) {
   return Padding(
-    padding: const EdgeInsets.all(8.0),
+    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
     child: MyTextField(
       prefixIcon: const Icon(Icons.search),
-      onFieldSubmitted: (value) {
-        context
-            .read<NutritionBloc>()
-            .add(FetchNutritionInfoEvent(query: value!));
+      onFieldSubmitted: (username) {
+        print(username);
       },
-      hintText: 'Search for Food',
+      hintText: 'enter username',
     ),
   );
 }
 
-Widget _buildFoodList(BuildContext context, String title) {
+Widget _buildSearchList(BuildContext context) {
   return Expanded(
-    child: BlocBuilder<NutritionBloc, NutritionState>(
+    child: BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
-        if (state.nutririonStatus == NutririonStatus.loading) {
+        if (state.status == ProfileStatus.loading) {
           return const Center(child: CircularProgressIndicator.adaptive());
-        } else if (state.nutririonStatus == NutririonStatus.loaded) {
+        } else if (state.status == ProfileStatus.loaded) {
           return ListView.builder(
-            itemCount: state.foodItems.length,
+            itemCount: 1,
             itemBuilder: (context, index) {
-              final foodItem = state.foodItems[index];
               return Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
@@ -70,16 +67,15 @@ Widget _buildFoodList(BuildContext context, String title) {
                             ),
                       ),
                     if (index == 0) const SizedBox(height: 15),
-                    FoodItemWidget(
-                      foodItem: foodItem,
-                      cardType: title,
-                    ),
+                    const ListTile(
+                      title: Text('User found'),
+                    )
                   ],
                 ),
               );
             },
           );
-        } else if (state.nutririonStatus == NutririonStatus.error) {
+        } else if (state.status == NutririonStatus.error) {
           return Center(
             child: Text(
               state.error.message,
@@ -96,12 +92,10 @@ Widget _buildFoodList(BuildContext context, String title) {
 
 class FoodItemWidget extends StatelessWidget {
   final Food foodItem;
-  final String cardType;
 
   const FoodItemWidget({
     super.key,
     required this.foodItem,
-    required this.cardType,
   });
 
   @override
@@ -127,11 +121,6 @@ class FoodItemWidget extends StatelessWidget {
             width: 30,
             child: GestureDetector(
               onTap: () {
-                context.read<NutritionBloc>().add(FetchAndAddFoodItemEvent(
-                      uid: context.read<AuthBloc>().state.user!.uid,
-                      itemId: foodItem.id,
-                      foodCardType: cardType,
-                    ));
                 Navigator.pop(context);
               },
               child: const CircleAvatar(

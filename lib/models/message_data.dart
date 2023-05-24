@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:synew_gym/helpers.dart';
+import 'package:synew_gym/constants/helpers.dart';
 
 class MessageField {
   static const String createdAt = 'createdAt';

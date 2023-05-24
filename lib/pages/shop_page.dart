@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:synew_gym/blocs/cart/cart_cubit.dart';
-import 'package:synew_gym/blocs/category_toggle/category_cubit.dart';
-import 'package:synew_gym/blocs/category_toggle/category_state.dart';
-import 'package:synew_gym/blocs/product/product_bloc.dart';
+import 'package:synew_gym/blocs/cart/cubit/cart_cubit.dart';
+import 'package:synew_gym/blocs/category_toggle/cubit/category_cubit.dart';
+import 'package:synew_gym/blocs/category_toggle/cubit/category_state.dart';
+import 'package:synew_gym/blocs/product/bloc/product_bloc.dart';
 import 'package:synew_gym/constants/colors.dart';
 import 'package:synew_gym/models/products.dart';
 import 'package:synew_gym/pages/cart_page.dart';
@@ -30,6 +30,7 @@ class _ShopPageState extends State<ShopPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: const Text('Shop')),
       body: BlocConsumer<ProductBloc, ProductState>(
         listener: (context, state) {
           if (state.productStatus == ProductStatus.error) {
@@ -67,7 +68,7 @@ class ExploreSearchBar extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+          padding: const EdgeInsets.symmetric(horizontal: 8),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -88,7 +89,7 @@ class ExploreSearchBar extends StatelessWidget {
           ),
         ),
         const SizedBox(
-          height: 10,
+          height: 20,
         ),
         MyTextField(
           prefixIcon: const Icon(CupertinoIcons.search),
@@ -210,7 +211,7 @@ class ShoppingOptions extends StatelessWidget {
         builder: (context, state) {
           if (state.selectedProducts.isEmpty) {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: CircularProgressIndicator.adaptive(),
             );
           }
           return Builder(builder: (context) {

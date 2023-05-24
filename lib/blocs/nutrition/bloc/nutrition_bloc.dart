@@ -4,7 +4,7 @@ import 'package:synew_gym/models/custom_error.dart';
 import 'package:synew_gym/models/daily_logs.dart';
 import 'package:synew_gym/models/food.dart';
 import 'package:synew_gym/models/user_daily_nutrition.dart';
-import 'package:synew_gym/repositories/nutrition_repository.dart';
+import 'package:synew_gym/blocs/nutrition/repository/nutrition_repository.dart';
 
 part 'nutrition_event.dart';
 part 'nutrition_state.dart';
@@ -19,7 +19,6 @@ class NutritionBloc extends Bloc<NutritionEvent, NutritionState> {
       try {
         UserFoodNutrition userFoodNutrition =
             await nutritionRepository.fetchUserNutrientsData(event.uid);
-
         emit(state.copyWith(
           userFoodNutrition: userFoodNutrition,
           nutririonStatus: NutririonStatus.loaded,
@@ -34,11 +33,11 @@ class NutritionBloc extends Bloc<NutritionEvent, NutritionState> {
             )));
       }
     }));
-    on<UpdateWaterConsumedEvent>(((event, emit) async {
+    on<UpdateCurrentWaterConsumedEvent>(((event, emit) async {
       emit(state.copyWith(nutririonStatus: NutririonStatus.loading));
       try {
-        double updatedWater = state.userFoodNutrition.totalWater +
-            double.parse(event.waterConsumed);
+        double updatedWater = double.parse(event.waterConsumed);
+
         UserFoodNutrition updatedUserFoodNutrition =
             state.userFoodNutrition.copyWith(totalWater: updatedWater);
         emit(state.copyWith(
@@ -49,17 +48,36 @@ class NutritionBloc extends Bloc<NutritionEvent, NutritionState> {
         emit(state.copyWith(nutririonStatus: NutririonStatus.error));
       }
     }));
+    on<UpdateGoalsEvent>(((event, emit) async {
+      emit(state.copyWith(nutririonStatus: NutririonStatus.loading));
+      try {
+        await nutritionRepository.updateGoals(
+          event.uid,
+          state.userFoodNutrition.goalCalories,
+          state.userFoodNutrition.goalFat,
+          state.userFoodNutrition.goalProtein,
+          state.userFoodNutrition.goalCarbs,
+        );
+        emit(state.copyWith(
+          nutririonStatus: NutririonStatus.loaded,
+        ));
+      } catch (e) {
+        emit(state.copyWith(nutririonStatus: NutririonStatus.error));
+      }
+    }));
+
     on<UpdateGoalCaloriesEvent>(((event, emit) async {
       emit(state.copyWith(nutririonStatus: NutririonStatus.loading));
       try {
-        UserFoodNutrition updatedUserFoodNutrition = state.userFoodNutrition
-            .copyWith(goalCalories: event.goalCalories.toDouble());
-        emit(state.copyWith(
-          nutririonStatus: NutririonStatus.loaded,
-          userFoodNutrition: updatedUserFoodNutrition,
-        ));
-        await nutritionRepository.updateGoalCalories(
-            event.uid, (event.goalCalories).toDouble());
+        if (event.goalCalories != '') {
+          double updatedGoal = double.parse(event.goalCalories);
+          UserFoodNutrition updatedUserFoodNutrition =
+              state.userFoodNutrition.copyWith(goalCalories: updatedGoal);
+          emit(state.copyWith(
+            nutririonStatus: NutririonStatus.loaded,
+            userFoodNutrition: updatedUserFoodNutrition,
+          ));
+        }
       } catch (e) {
         emit(state.copyWith(nutririonStatus: NutririonStatus.error));
       }
@@ -67,14 +85,15 @@ class NutritionBloc extends Bloc<NutritionEvent, NutritionState> {
     on<UpdateGoalCarbsEvent>(((event, emit) async {
       emit(state.copyWith(nutririonStatus: NutririonStatus.loading));
       try {
-        UserFoodNutrition updatedUserFoodNutrition = state.userFoodNutrition
-            .copyWith(goalCarbs: (event.goalCarbs).toDouble());
-        emit(state.copyWith(
-          nutririonStatus: NutririonStatus.loaded,
-          userFoodNutrition: updatedUserFoodNutrition,
-        ));
-        await nutritionRepository.updateGoalCarbs(
-            event.uid, (event.goalCarbs).toDouble());
+        if (event.goalCarbs != '') {
+          double updatedGoal = double.parse(event.goalCarbs);
+          UserFoodNutrition updatedUserFoodNutrition =
+              state.userFoodNutrition.copyWith(goalCarbs: updatedGoal);
+          emit(state.copyWith(
+            nutririonStatus: NutririonStatus.loaded,
+            userFoodNutrition: updatedUserFoodNutrition,
+          ));
+        }
       } catch (e) {
         emit(state.copyWith(nutririonStatus: NutririonStatus.error));
       }
@@ -82,15 +101,15 @@ class NutritionBloc extends Bloc<NutritionEvent, NutritionState> {
     on<UpdateGoalProteinsEvent>(((event, emit) async {
       emit(state.copyWith(nutririonStatus: NutririonStatus.loading));
       try {
-        UserFoodNutrition updatedUserFoodNutrition = state.userFoodNutrition
-            .copyWith(goalProtein: (event.goalProteins).toDouble());
-        emit(state.copyWith(
-          nutririonStatus: NutririonStatus.loaded,
-          userFoodNutrition: updatedUserFoodNutrition,
-        ));
-        await nutritionRepository.updateGoalProtein(
-            event.uid, (event.goalProteins).toDouble());
-        emit(state.copyWith(nutririonStatus: NutririonStatus.error));
+        if (event.goalProteins != '') {
+          double updatedGoal = double.parse(event.goalProteins);
+          UserFoodNutrition updatedUserFoodNutrition =
+              state.userFoodNutrition.copyWith(goalProtein: updatedGoal);
+          emit(state.copyWith(
+            nutririonStatus: NutririonStatus.loaded,
+            userFoodNutrition: updatedUserFoodNutrition,
+          ));
+        }
       } catch (e) {
         emit(state.copyWith(nutririonStatus: NutririonStatus.error));
       }
@@ -99,16 +118,15 @@ class NutritionBloc extends Bloc<NutritionEvent, NutritionState> {
     on<UpdateGoalFatsEvent>(((event, emit) async {
       emit(state.copyWith(nutririonStatus: NutririonStatus.loading));
       try {
-        UserFoodNutrition updatedUserFoodNutrition = state.userFoodNutrition
-            .copyWith(goalFat: (event.goalFats).toDouble());
-        emit(state.copyWith(
-          nutririonStatus: NutririonStatus.loaded,
-          userFoodNutrition: updatedUserFoodNutrition,
-        ));
-        await nutritionRepository.updateGoalFat(
-          event.uid,
-          (event.goalFats).toDouble(),
-        );
+        if (event.goalFats != '') {
+          double updatedGoal = double.parse(event.goalFats);
+          UserFoodNutrition updatedUserFoodNutrition =
+              state.userFoodNutrition.copyWith(goalFat: updatedGoal);
+          emit(state.copyWith(
+            nutririonStatus: NutririonStatus.loaded,
+            userFoodNutrition: updatedUserFoodNutrition,
+          ));
+        }
       } catch (e) {
         emit(state.copyWith(nutririonStatus: NutririonStatus.error));
       }

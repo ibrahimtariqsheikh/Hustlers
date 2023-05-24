@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:synew_gym/blocs/cart/cart_cubit.dart';
+import 'package:synew_gym/blocs/cart/cubit/cart_cubit.dart';
 import 'package:synew_gym/constants/colors.dart';
 import 'package:synew_gym/models/cart_product.dart';
-import 'package:synew_gym/services/stripe_api_services.dart';
+import 'package:synew_gym/blocs/product/services/stripe_api_services.dart';
 import 'package:synew_gym/widgets/login_button.dart';
 import 'package:synew_gym/widgets/my_divider.dart';
 
@@ -89,7 +89,7 @@ class CartPage extends StatelessWidget {
           child: BlocBuilder<CartCubit, CartState>(
             builder: (context, state) {
               if (state.cartProducts.isEmpty) {
-                return Center(child: Text('Cart is empty'));
+                return const Center(child: Text('Cart is empty'));
               } else {
                 return Container(
                   margin: const EdgeInsets.only(top: 20),

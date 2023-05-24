@@ -2,18 +2,18 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:synew_gym/blocs/auth/auth_bloc.dart';
-import 'package:synew_gym/blocs/nutrition/nutrition_bloc.dart';
-import 'package:synew_gym/blocs/profile/profile_cubit.dart';
+import 'package:synew_gym/blocs/auth/bloc/auth_bloc.dart';
+import 'package:synew_gym/blocs/nutrition/bloc/nutrition_bloc.dart';
+import 'package:synew_gym/blocs/profile/cubit/profile_cubit.dart';
 import 'package:synew_gym/constants/colors.dart';
-import 'package:synew_gym/helpers.dart';
+import 'package:synew_gym/constants/helpers.dart';
 import 'package:synew_gym/models/exercises.dart';
 import 'package:synew_gym/models/workout.dart';
 import 'package:synew_gym/pages/auth_landing.dart';
+import 'package:synew_gym/pages/search_page.dart';
 import 'package:synew_gym/widgets/avatar.dart';
 import 'package:synew_gym/widgets/circular_progress.dart';
 import 'package:synew_gym/widgets/custom_card.dart';
-import 'package:synew_gym/widgets/login_button.dart';
 import 'package:synew_gym/widgets/todays_workout.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -37,80 +37,109 @@ class _ProfilePageState extends State<ProfilePage> {
 
         String heartRate = state.healthData.heartRate;
         String sleepInBed = state.healthData.sleepInBed;
+        String steps = state.healthData.steps;
+        String distanceWalking = state.healthData.distanceWalking;
 
         if (state.status == ProfileStatus.loaded) {
           return Scaffold(
-              body: SingleChildScrollView(
-            child: Container(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                children: [
-                  Row(
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+              endDrawer: BlocBuilder<ProfileCubit, ProfileState>(
+                  builder: (context, state) {
+                return Drawer(
+                  child: SafeArea(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: ListView(
                         children: [
-                          Text(
-                            'Welcome back',
-                            style: Theme.of(context).textTheme.bodySmall,
+                          const SizedBox(
+                            height: 10,
                           ),
-                          Text(
-                            state.user.firstname.toUpperCase(),
-                            style: Theme.of(context).textTheme.bodyLarge,
+                          ListTile(
+                            leading:
+                                Avatar.small(url: Helpers.randomPictureUrl()),
+                            title: Text(
+                              state.user.firstname,
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                            subtitle: const Text('16 Followers - 16 following'),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const DrawerTile(
+                            label: 'Settings and privacy',
+                            icon: Icon(Icons.settings),
+                            onTap: null,
+                          ),
+                          DrawerTile(
+                            label: 'Add Friends',
+                            icon: const Icon(Icons.people),
+                            onTap: () {
+                              Navigator.pop(context);
+                              Navigator.pushNamed(
+                                  context, SearchPage.routeName);
+                            },
+                          ),
+                          DrawerTile(
+                            label: 'Sign Out',
+                            icon: const Icon(Icons.exit_to_app),
+                            onTap: () {
+                              context
+                                  .read<AuthBloc>()
+                                  .add(SignOutRequestedEvent());
+                              Navigator.pushNamedAndRemoveUntil(context,
+                                  AuthLanding.routeName, (route) => false);
+                            },
+                          ),
+                          const Spacer(),
+                          const SizedBox(
+                            height: 20,
                           ),
                         ],
                       ),
-                      const Spacer(),
-                      Avatar.small(url: Helpers.randomPictureUrl()),
+                    ),
+                  ),
+                );
+              }),
+              appBar: AppBar(
+                title: const Text('Today'),
+              ),
+              body: SingleChildScrollView(
+                child: Container(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    children: [
+                      const CustomCard(
+                        height: 200,
+                        child: NutritionCard(),
+                      ),
+                      const SizedBox(height: 10),
+                      CustomCard(
+                        height: 200,
+                        child: StepsCard(
+                            steps: steps, distanceWalking: distanceWalking),
+                      ),
+                      const SizedBox(height: 10),
+                      CustomCard(
+                          height: 100,
+                          child: HeartRateSleepCard(
+                            heartRate: heartRate,
+                            sleepInBed: sleepInBed,
+                          )),
+                      const SizedBox(height: 15),
+                      currentDayExercises == null
+                          ? Container()
+                          : TodaysWorkout(
+                              workoutIndex: index,
+                              dayIndex: day,
+                              exerciseData: currentDayExercises,
+                            ),
+                      const SizedBox(
+                        height: 10,
+                      ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  const CustomCard(
-                    height: 200,
-                    child: NutritionCard(),
-                  ),
-                  const SizedBox(height: 10),
-                  const CustomCard(
-                    height: 200,
-                    child: StepsCard(),
-                  ),
-                  const SizedBox(height: 10),
-                  CustomCard(
-                      height: 100,
-                      child: HeartRateSleepCard(
-                        heartRate: heartRate,
-                        sleepInBed: sleepInBed,
-                      )),
-                  const SizedBox(height: 20),
-                  currentDayExercises == null
-                      ? Container()
-                      : TodaysWorkout(
-                          workoutIndex: index,
-                          dayIndex: day,
-                          exerciseData: currentDayExercises,
-                        ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  MyButton(
-                    buttonText: 'Sign Out',
-                    buttonColor: Colors.green,
-                    buttonWidth: 300,
-                    buttonHeight: 50,
-                    buttonAction: () {
-                      context.read<AuthBloc>().add(SignOutRequestedEvent());
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, AuthLanding.routeName, (route) => false);
-                    },
-                    isSubmitting: false,
-                    isOutlined: false,
-                  ),
-                ],
-              ),
-            ),
-          ));
+                ),
+              ));
         } else {
           return const Center(
             child: CircularProgressIndicator.adaptive(),
@@ -118,6 +147,42 @@ class _ProfilePageState extends State<ProfilePage> {
         }
       }
     });
+  }
+}
+
+class DrawerTile extends StatelessWidget {
+  final Icon icon;
+  final String label;
+  final Function()? onTap;
+
+  const DrawerTile({
+    required this.label,
+    required this.icon,
+    required this.onTap,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 5),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            width: .2,
+            color: Theme.of(context).colorScheme.onTertiaryContainer,
+          ),
+        ),
+      ),
+      child: ListTile(
+        leading: icon,
+        title: Text(
+          label,
+          style: Theme.of(context).textTheme.bodyMedium,
+        ),
+        onTap: onTap,
+      ),
+    );
   }
 }
 
@@ -281,79 +346,89 @@ class NutritionCard extends StatelessWidget {
 }
 
 class StepsCard extends StatelessWidget {
-  const StepsCard({super.key});
+  final String steps;
+  final String distanceWalking;
+  const StepsCard(
+      {required this.steps, required this.distanceWalking, super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProfileCubit, ProfileState>(builder: (context, state) {
-      return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              const Icon(
-                FontAwesomeIcons.personWalking,
-                color: Colors.deepOrangeAccent,
-              ),
-              const SizedBox(
-                width: 3,
-              ),
-              Text(
-                'Steps',
-                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                      color: Colors.deepOrangeAccent,
-                    ),
-              ),
-            ],
-          ),
-          const Spacer(),
-          // distance covered pos
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CircularProgress(
-                percentage: 60,
-                color: Colors.deepOrangeAccent,
-                width: 100,
-                height: 100,
-                paintWidth: 15,
-                centerText: state.healthData.steps.split('.').first,
-              ),
-              const SizedBox(
-                width: 15,
-              ),
-              const Spacer(),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Distance covered',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge!
-                          .copyWith(fontSize: 16)),
-                  Text(
-                      '${state.healthData.distanceWalking} KM', //!!!!!!!!!!!!!!!!!!!
-                      style: Theme.of(context).textTheme.bodyMedium),
-                  const SizedBox(
-                    height: 10,
+    String showSteps = steps;
+    String showDistanceWalking = distanceWalking;
+    if (steps == 'N/A') {
+      showSteps = '0';
+    } else {
+      showSteps = steps.split('.').first;
+    }
+    if (distanceWalking == 'N/A') {
+      showDistanceWalking = '0';
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            const Icon(
+              FontAwesomeIcons.personWalking,
+              color: Colors.deepOrangeAccent,
+            ),
+            const SizedBox(
+              width: 3,
+            ),
+            Text(
+              'Steps',
+              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: Colors.deepOrangeAccent,
                   ),
-                  Text('Calories Burned',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge!
-                          .copyWith(fontSize: 16)),
-                  Text('20 Kcal',
-                      style: Theme.of(context).textTheme.bodyMedium),
-                ],
-              )
-            ],
-          ),
-          const Spacer(),
-        ],
-      );
-    });
+            ),
+          ],
+        ),
+        const Spacer(),
+        // distance covered pos
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CircularProgress(
+              percentage: 60,
+              color: Colors.deepOrangeAccent,
+              width: 100,
+              height: 100,
+              paintWidth: 15,
+              centerText: showSteps,
+            ),
+            const SizedBox(
+              width: 15,
+            ),
+            const Spacer(),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Distance covered',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .copyWith(fontSize: 16)),
+                Text(
+                    '${double.parse(showDistanceWalking).toStringAsFixed(2)} KM',
+                    style: Theme.of(context).textTheme.bodyMedium),
+                const SizedBox(
+                  height: 10,
+                ),
+                Text('Calories Burned',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyLarge!
+                        .copyWith(fontSize: 16)),
+                Text('0 Kcal', style: Theme.of(context).textTheme.bodyMedium),
+              ],
+            )
+          ],
+        ),
+        const Spacer(),
+      ],
+    );
   }
 }
 
@@ -419,7 +494,7 @@ class HeartRateSleepCard extends StatelessWidget {
               ],
             ),
             Text(
-              '$sleepInBed mins',
+              '${double.parse(sleepInBed) ~/ 60} hrs ${(double.parse(sleepInBed) % 60).toInt()} mins',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ],

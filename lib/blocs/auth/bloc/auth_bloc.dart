@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart' as fb_auth;
-import 'package:synew_gym/repositories/auth_repository.dart';
+import 'package:synew_gym/blocs/auth/repository/auth_repository.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';

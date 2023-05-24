@@ -46,9 +46,9 @@ class GetTotalNutritions extends NutritionEvent {
   List<Object> get props => [title, type];
 }
 
-class UpdateWaterConsumedEvent extends NutritionEvent {
+class UpdateCurrentWaterConsumedEvent extends NutritionEvent {
   final String waterConsumed;
-  const UpdateWaterConsumedEvent({
+  const UpdateCurrentWaterConsumedEvent({
     required this.waterConsumed,
   });
   @override
@@ -57,7 +57,7 @@ class UpdateWaterConsumedEvent extends NutritionEvent {
 
 class UpdateGoalCaloriesEvent extends NutritionEvent {
   final String uid;
-  final int goalCalories;
+  final String goalCalories;
 
   const UpdateGoalCaloriesEvent({
     required this.uid,
@@ -70,7 +70,7 @@ class UpdateGoalCaloriesEvent extends NutritionEvent {
 
 class UpdateGoalCarbsEvent extends NutritionEvent {
   final String uid;
-  final int goalCarbs;
+  final String goalCarbs;
   const UpdateGoalCarbsEvent({
     required this.uid,
     required this.goalCarbs,
@@ -81,7 +81,7 @@ class UpdateGoalCarbsEvent extends NutritionEvent {
 
 class UpdateGoalFatsEvent extends NutritionEvent {
   final String uid;
-  final int goalFats;
+  final String goalFats;
 
   const UpdateGoalFatsEvent({
     required this.uid,
@@ -94,7 +94,7 @@ class UpdateGoalFatsEvent extends NutritionEvent {
 
 class UpdateGoalProteinsEvent extends NutritionEvent {
   final String uid;
-  final int goalProteins;
+  final String goalProteins;
 
   const UpdateGoalProteinsEvent({
     required this.uid,
@@ -103,4 +103,15 @@ class UpdateGoalProteinsEvent extends NutritionEvent {
 
   @override
   List<Object> get props => [uid, goalProteins];
+}
+
+class UpdateGoalsEvent extends NutritionEvent {
+  final String uid;
+
+  const UpdateGoalsEvent({
+    required this.uid,
+  });
+
+  @override
+  List<Object> get props => [uid];
 }

@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 // ignore: unused_import
-import 'package:synew_gym/blocs/auth/auth_bloc.dart';
-import 'package:synew_gym/blocs/nutrition/nutrition_bloc.dart';
+import 'package:synew_gym/blocs/auth/bloc/auth_bloc.dart';
+import 'package:synew_gym/blocs/nutrition/bloc/nutrition_bloc.dart';
 import 'package:synew_gym/constants/colors.dart';
-import 'package:synew_gym/helpers.dart';
+import 'package:synew_gym/constants/helpers.dart';
 import 'package:synew_gym/models/daily_logs.dart';
 import 'package:synew_gym/models/user_daily_nutrition.dart';
 import 'package:synew_gym/pages/calories.dart';
@@ -33,95 +33,95 @@ class _NutritionPageState extends State<NutritionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(title: const Text('Nutrition')),
         body: SingleChildScrollView(
             child: BlocConsumer<NutritionBloc, NutritionState>(
                 listener: (context, state) {
-      if (state.nutririonStatus == NutririonStatus.error) {
-        errorDialog(context, state.error);
-      }
-    }, builder: (context, state) {
-      if (state.nutririonStatus == NutririonStatus.loaded ||
-          state.nutririonStatus == NutririonStatus.initial) {
-        return Column(
-          children: [
-            _buildCalanderDayRow(context),
-            _buildCalenderView(context),
-            const MyDivider(horizontalPadding: 25, verticalPadding: 20),
-            _buildStatsCard(context, state.userFoodNutrition),
-            const SizedBox(height: 15),
-            TrackCaloriesCard(
-              title: 'Breakfast',
-              icon: const Icon(
-                Icons.wb_sunny_rounded,
-                color: Colors.orangeAccent,
-              ),
-              dailyLog: state.userFoodNutrition.dailyLogs
-                  .firstWhere((log) => log.type == 'breakfast'),
-            ),
-            TrackCaloriesCard(
-              title: 'Lunch',
-              icon: const Icon(
-                Icons.food_bank_rounded,
-                color: Colors.green,
-              ),
-              dailyLog: state.userFoodNutrition.dailyLogs
-                  .firstWhere((log) => log.type == 'lunch'),
-            ),
-            TrackCaloriesCard(
-              title: 'Dinner',
-              icon: const Icon(
-                Icons.nights_stay,
-                color: Colors.blue,
-              ),
-              dailyLog: state.userFoodNutrition.dailyLogs
-                  .firstWhere((log) => log.type == 'dinner'),
-            ),
-            TrackCaloriesCard(
-              title: 'Snacks',
-              icon: const Icon(
-                Icons.breakfast_dining,
-                color: Colors.redAccent,
-              ),
-              dailyLog: state.userFoodNutrition.dailyLogs
-                  .firstWhere((log) => log.type == 'snacks'),
-            ),
-            TrackWaterIntakeCard(
-              title: 'Water',
-              icon: const Icon(
-                Icons.water,
-                color: Colors.lightBlueAccent,
-              ),
-              waterConsumed: state.userFoodNutrition.totalWater,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            MyButton(
-              buttonText: 'Manage Goals',
-              buttonColor: primaryColor,
-              buttonWidth: MediaQuery.of(context).size.width - 100,
-              buttonHeight: 55,
-              buttonAction: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const ManageGoalsPage(),
-                    ));
-              },
-              isSubmitting: false,
-              isOutlined: false,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-          ],
-        );
-      } else {
-        return const Center(
-          child: CircularProgressIndicator.adaptive(),
-        );
-      }
-    })));
+          if (state.nutririonStatus == NutririonStatus.error) {
+            errorDialog(context, state.error);
+          }
+        }, builder: (context, state) {
+          if (state.nutririonStatus == NutririonStatus.loaded) {
+            return Column(
+              children: [
+                _buildCalanderDayRow(context),
+                _buildCalenderView(context),
+                const MyDivider(horizontalPadding: 25, verticalPadding: 20),
+                _buildStatsCard(context, state.userFoodNutrition),
+                const SizedBox(height: 15),
+                TrackCaloriesCard(
+                  title: 'Breakfast',
+                  icon: const Icon(
+                    Icons.wb_sunny_rounded,
+                    color: Colors.orangeAccent,
+                  ),
+                  dailyLog: state.userFoodNutrition.dailyLogs
+                      .firstWhere((log) => log.type == 'breakfast'),
+                ),
+                TrackCaloriesCard(
+                  title: 'Lunch',
+                  icon: const Icon(
+                    Icons.food_bank_rounded,
+                    color: Colors.green,
+                  ),
+                  dailyLog: state.userFoodNutrition.dailyLogs
+                      .firstWhere((log) => log.type == 'lunch'),
+                ),
+                TrackCaloriesCard(
+                  title: 'Dinner',
+                  icon: const Icon(
+                    Icons.nights_stay,
+                    color: Colors.blue,
+                  ),
+                  dailyLog: state.userFoodNutrition.dailyLogs
+                      .firstWhere((log) => log.type == 'dinner'),
+                ),
+                TrackCaloriesCard(
+                  title: 'Snacks',
+                  icon: const Icon(
+                    Icons.breakfast_dining,
+                    color: Colors.redAccent,
+                  ),
+                  dailyLog: state.userFoodNutrition.dailyLogs
+                      .firstWhere((log) => log.type == 'snacks'),
+                ),
+                TrackWaterIntakeCard(
+                  title: 'Water',
+                  icon: const Icon(
+                    Icons.water,
+                    color: Colors.lightBlueAccent,
+                  ),
+                  waterConsumed: state.userFoodNutrition.totalWater,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                MyButton(
+                  buttonText: 'Manage Goals',
+                  buttonColor: primaryColor,
+                  buttonWidth: MediaQuery.of(context).size.width - 100,
+                  buttonHeight: 55,
+                  buttonAction: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ManageGoalsPage(),
+                        ));
+                  },
+                  isSubmitting: false,
+                  isOutlined: false,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+              ],
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator.adaptive(),
+            );
+          }
+        })));
   }
 }
 
@@ -386,52 +386,64 @@ class TrackWaterIntakeCard extends StatelessWidget {
                         showCupertinoDialog(
                             context: context,
                             builder: (context) {
-                              return CupertinoAlertDialog(
-                                title: const Text('Enter Water'),
-                                content: WorkoutTextField(
-                                  hintText: 'ml',
-                                  label: 'Water',
-                                  keyboardType: TextInputType.number,
-                                  onChanged: (waterConsumed) {
-                                    context.read<NutritionBloc>().add(
-                                          UpdateWaterConsumedEvent(
-                                              waterConsumed: waterConsumed),
-                                        );
-                                  },
-                                ),
-                                actions: [
-                                  CupertinoDialogAction(
-                                    child: const Text('OK'),
-                                    onPressed: () =>
-                                        Navigator.of(context).pop(),
+                              return Material(
+                                type: MaterialType.transparency,
+                                child: CupertinoAlertDialog(
+                                  title: const Text('Enter Water'),
+                                  content: Padding(
+                                    padding: const EdgeInsets.all(20),
+                                    child: WorkoutTextField(
+                                      hintText: 'ml',
+                                      label: 'Water ',
+                                      keyboardType: TextInputType.number,
+                                      onChanged: (waterConsumed) {
+                                        context.read<NutritionBloc>().add(
+                                              UpdateCurrentWaterConsumedEvent(
+                                                  waterConsumed: waterConsumed),
+                                            );
+                                      },
+                                    ),
                                   ),
-                                ],
+                                  actions: [
+                                    CupertinoDialogAction(
+                                      child: const Text('Add'),
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(),
+                                    ),
+                                  ],
+                                ),
                               );
                             });
                       } else {
                         showDialog(
                             context: context,
                             builder: (context) {
-                              return AlertDialog(
-                                title: const Text('Enter Water'),
-                                content: WorkoutTextField(
-                                  hintText: 'ml',
-                                  label: 'Water',
-                                  keyboardType: TextInputType.number,
-                                  onChanged: (waterConsumed) {
-                                    context.read<NutritionBloc>().add(
-                                          UpdateWaterConsumedEvent(
-                                              waterConsumed: waterConsumed),
-                                        );
-                                  },
-                                ),
-                                actions: [
-                                  CupertinoDialogAction(
-                                    child: const Text('OK'),
-                                    onPressed: () =>
-                                        Navigator.of(context).pop(),
+                              return Material(
+                                type: MaterialType.transparency,
+                                child: AlertDialog(
+                                  title: const Text('Enter Water'),
+                                  content: Padding(
+                                    padding: const EdgeInsets.all(20),
+                                    child: WorkoutTextField(
+                                      hintText: 'ml',
+                                      label: 'Water (ml)',
+                                      keyboardType: TextInputType.number,
+                                      onChanged: (waterConsumed) {
+                                        context.read<NutritionBloc>().add(
+                                              UpdateCurrentWaterConsumedEvent(
+                                                  waterConsumed: waterConsumed),
+                                            );
+                                      },
+                                    ),
                                   ),
-                                ],
+                                  actions: [
+                                    CupertinoDialogAction(
+                                      child: const Text('Add'),
+                                      onPressed: () =>
+                                          Navigator.of(context).pop(),
+                                    ),
+                                  ],
+                                ),
                               );
                             });
                       }
@@ -465,6 +477,28 @@ Widget _buildStatsCard(
               ),
         ),
         BlocBuilder<NutritionBloc, NutritionState>(builder: (context, state) {
+          int percentageCals = ((userFoodNutrition.totalCalories /
+                      userFoodNutrition.goalCalories) *
+                  100)
+              .toInt();
+
+          int percentageCarbs =
+              ((userFoodNutrition.totalCarbs / userFoodNutrition.goalCarbs) *
+                      100)
+                  .toInt();
+
+          int percentageFat =
+              ((userFoodNutrition.totalFat / userFoodNutrition.goalFat) * 100)
+                  .toInt();
+
+          int percentageProtein =
+              ((userFoodNutrition.totalCarbs / userFoodNutrition.goalCarbs) *
+                      100)
+                  .toInt();
+
+          int percentageWater =
+              ((userFoodNutrition.totalWater / 2000) * 100).toInt();
+
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
@@ -472,42 +506,31 @@ Widget _buildStatsCard(
                 text: 'Calories',
                 value: userFoodNutrition.totalCalories,
                 color: Colors.amber,
-                percentage: ((userFoodNutrition.totalCalories /
-                            userFoodNutrition.goalCalories) *
-                        100)
-                    .toInt(),
+                percentage: percentageCals,
               ),
               StatsView(
-                  text: 'Protein',
-                  value: state.userFoodNutrition.totalProtein,
-                  color: Colors.redAccent,
-                  percentage: ((userFoodNutrition.totalProtein /
-                              userFoodNutrition.goalProtein) *
-                          100)
-                      .toInt()),
-              StatsView(
-                  text: 'Carbs',
-                  value: state.userFoodNutrition.totalCarbs,
-                  color: Colors.blueAccent,
-                  percentage: ((userFoodNutrition.totalCarbs /
-                              userFoodNutrition.goalCarbs) *
-                          100)
-                      .toInt()),
-              StatsView(
-                  text: 'Fats',
-                  value: state.userFoodNutrition.totalFat,
-                  color: Colors.greenAccent,
-                  percentage: ((userFoodNutrition.totalFat /
-                              userFoodNutrition.goalFat) *
-                          100)
-                      .toInt()),
-              StatsView(
-                text: 'Water',
-                value: userFoodNutrition.totalWater.toDouble(),
-                color: Colors.lightBlueAccent,
-                percentage:
-                    ((userFoodNutrition.totalWater / 2000) * 100).toInt(),
+                text: 'Protein',
+                value: state.userFoodNutrition.totalProtein,
+                color: Colors.redAccent,
+                percentage: percentageProtein,
               ),
+              StatsView(
+                text: 'Carbs',
+                value: state.userFoodNutrition.totalCarbs,
+                color: Colors.blueAccent,
+                percentage: percentageCarbs,
+              ),
+              StatsView(
+                text: 'Fats',
+                value: state.userFoodNutrition.totalFat,
+                color: Colors.greenAccent,
+                percentage: percentageFat,
+              ),
+              StatsView(
+                  text: 'Water',
+                  value: userFoodNutrition.totalWater.toDouble(),
+                  color: Colors.lightBlueAccent,
+                  percentage: percentageWater),
             ],
           );
         }),

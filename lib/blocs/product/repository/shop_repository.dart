@@ -1,6 +1,6 @@
 import 'package:synew_gym/models/products.dart';
-import 'package:synew_gym/sanity_commands.dart';
-import 'package:synew_gym/services/sanity_api_services.dart';
+import 'package:synew_gym/constants/sanity_commands.dart';
+import 'package:synew_gym/blocs/product/services/sanity_api_services.dart';
 
 class ShopRepository {
   final SanityApiServices sanityApiServices;

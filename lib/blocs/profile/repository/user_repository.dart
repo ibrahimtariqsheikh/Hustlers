@@ -4,7 +4,7 @@ import 'package:synew_gym/constants/db_constants.dart';
 import 'package:synew_gym/models/custom_error.dart';
 import 'package:synew_gym/models/user_model.dart';
 
-import '../models/workout.dart';
+import '../../../models/workout.dart';
 
 class UserRepository {
   final FirebaseFirestore firebaseFirestore;

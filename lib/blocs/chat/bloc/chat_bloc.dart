@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:synew_gym/models/message_data.dart';
 import 'package:synew_gym/models/user_model.dart';
-import 'package:synew_gym/repositories/message_repository.dart';
+import 'package:synew_gym/blocs/chat/repository/message_repository.dart';
 
 part 'chat_event.dart';
 part 'chat_state.dart';

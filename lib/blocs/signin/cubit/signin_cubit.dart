@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:synew_gym/models/custom_error.dart';
-import 'package:synew_gym/repositories/auth_repository.dart';
+import 'package:synew_gym/blocs/auth/repository/auth_repository.dart';
 
 part 'signin_state.dart';
 

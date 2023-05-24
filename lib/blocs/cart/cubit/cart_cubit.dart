@@ -46,7 +46,6 @@ class CartCubit extends Cubit<CartState> {
   }
 
   void changeQuantity(CartProduct productToChange, bool increment) {
-    print(increment);
     List<CartProduct> products = List.from(state.cartProducts);
     for (CartProduct product in products) {
       if (product.productId == productToChange.productId) {
@@ -81,7 +80,6 @@ class CartCubit extends Cubit<CartState> {
           (productToBeDeleted.price * productToBeDeleted.quantity),
       cartStatus: CartStatus.loaded,
     ));
-    print('product ${productToBeDeleted.productName} is deleted');
   }
 
   void selectSize(String size) {

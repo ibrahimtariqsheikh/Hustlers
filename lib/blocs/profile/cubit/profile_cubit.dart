@@ -7,7 +7,7 @@ import 'package:synew_gym/models/exercises.dart';
 import 'package:synew_gym/models/health_data.dart';
 import 'package:synew_gym/models/user_model.dart';
 import 'package:synew_gym/models/workout.dart';
-import 'package:synew_gym/repositories/user_repository.dart';
+import 'package:synew_gym/blocs/profile/repository/user_repository.dart';
 
 part 'profile_state.dart';
 
@@ -70,8 +70,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     DateTime startDate = DateTime.now().subtract(const Duration(days: 1000));
     DateTime endDate = DateTime.now();
 
-    bool isAuthorized = false;
-    //await _health.requestAuthorization(_types);
+    bool isAuthorized = await _health.requestAuthorization(_types);
 
     if (isAuthorized) {
       List<HealthDataPoint> healthDataPoints =
@@ -113,11 +112,7 @@ class ProfileCubit extends Cubit<ProfileState> {
       );
       return healthData;
     }
-    return HealthData(
-        heartRate: 'N/A',
-        sleepInBed: 'N/A',
-        steps: 'N/A',
-        distanceWalking: 'N/A');
+    return HealthData.initial();
   }
 
   Future<void> addWorkout(Workout workout) async {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:synew_gym/blocs/signin/signin_cubit.dart';
+import 'package:synew_gym/blocs/signin/cubit/signin_cubit.dart';
 import 'package:synew_gym/pages/nutrition_page.dart';
 
 import 'package:synew_gym/widgets/error_dialog.dart';

@@ -58,7 +58,7 @@ class DailyLogs extends Equatable {
       totalCarbs: json['totalCarbs'] ?? 0,
       totalFat: json['totalFat'] ?? 0,
       totalProtein: json['totalProtein'] ?? 0,
-      totalCalories: json['totalProtein'] ?? 0,
+      totalCalories: json['totalCalories'] ?? 0,
       foodList: (json['foodList'] as List<dynamic>?)
               ?.map((item) => Food.fromJson(item as Map<String, dynamic>))
               .toList() ??
@@ -72,6 +72,7 @@ class DailyLogs extends Equatable {
       'totalCarbs': totalCarbs,
       'totalFat': totalFat,
       'totalProtein': totalProtein,
+      'totalCalories': totalCalories,
       'foodList': foodList.map((item) => item.toJson()).toList(),
     };
   }
