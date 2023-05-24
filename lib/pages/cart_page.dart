@@ -89,7 +89,7 @@ class CartPage extends StatelessWidget {
           child: BlocBuilder<CartCubit, CartState>(
             builder: (context, state) {
               if (state.cartProducts.isEmpty) {
-                return Center(child: Text('Cart is empty'));
+                return const Center(child: Text('Cart is empty'));
               } else {
                 return Container(
                   margin: const EdgeInsets.only(top: 20),

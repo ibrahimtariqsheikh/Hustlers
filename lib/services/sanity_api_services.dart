@@ -12,6 +12,7 @@ class SanityApiServices {
       final products = data['result'];
       List<Product> productItems = [];
       for (final item in products) {
+        print(item['Category']?['_ref']);
         Product product = Product.fromJson(item);
         productItems.add(product);
       }

@@ -39,7 +39,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       }
     });
 
-    on<ChangeSelectedProduct>((event, emit) async {
+    on<ChangeSelectedProductEvent>((event, emit) async {
       emit(state.copyWith(productStatus: ProductStatus.loading));
       List<Product> selectedProduct = [];
       if (event.label == 'Men\'s Apparel') {
@@ -65,7 +65,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       emit(state.copyWith(productStatus: ProductStatus.loading));
       List<Product> selectedProducts = [];
       if (event.query != '') {
-        //logic yet to be implemented
         emit(state.copyWith(
           productStatus: ProductStatus.loaded,
           selectedProducts: selectedProducts,

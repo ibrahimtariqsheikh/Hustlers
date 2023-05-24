@@ -5,10 +5,10 @@ abstract class ProductEvent extends Equatable {
   const ProductEvent();
 }
 
+// ignore: must_be_immutable
 class FetchProductsBySearchEvent extends ProductEvent {
-  final String query;
-
-  const FetchProductsBySearchEvent({required this.query});
+  FetchProductsBySearchEvent({required this.query});
+  String query;
 
   @override
   List<Object> get props => [query];
@@ -22,8 +22,8 @@ class FetchAllProductsEvent extends ProductEvent {
 }
 
 // ignore: must_be_immutable
-class ChangeSelectedProduct extends ProductEvent {
-  ChangeSelectedProduct({required this.label});
+class ChangeSelectedProductEvent extends ProductEvent {
+  ChangeSelectedProductEvent({required this.label});
   String label;
   @override
   List<Object> get props => [label];

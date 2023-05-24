@@ -171,7 +171,7 @@ class _CategoryButtonState extends State<CategoryButton> {
                 .categoryButtonPressed(widget.index, widget.label);
             context
                 .read<ProductBloc>()
-                .add(ChangeSelectedProduct(label: widget.label));
+                .add(ChangeSelectedProductEvent(label: widget.label));
           },
           child: Container(
             decoration: BoxDecoration(
