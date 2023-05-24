@@ -71,15 +71,12 @@ class _TabBarPageState extends State<TabBarPage> {
                           state.user.firstname,
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
-                        subtitle: const Text('16 Followers - 16 following'),
+                        subtitle: state.user.friends.length <= 1
+                            ? Text('${state.user.friends.length} friend')
+                            : Text('${state.user.friends.length} friends'),
                       ),
                       const SizedBox(
                         height: 10,
-                      ),
-                      const DrawerTile(
-                        label: 'Settings and privacy',
-                        icon: Icon(Icons.settings),
-                        onTap: null,
                       ),
                       DrawerTile(
                         label: 'Add Friends',

@@ -5,11 +5,30 @@ import 'package:synew_gym/app_theme.dart';
 import 'package:synew_gym/blocs/auth/bloc/auth_bloc.dart';
 import 'package:synew_gym/blocs/chat/bloc/chat_bloc.dart';
 import 'package:synew_gym/models/message_data.dart';
+import 'package:synew_gym/models/user_model.dart';
 import 'package:synew_gym/pages/chat_screen.dart';
 
 import 'package:synew_gym/widgets/avatar.dart';
 
 import '../constants/helpers.dart';
+
+/* final user = state.users[index];
+
+                if (user.id == currUser) {
+                  return Container();
+                }
+
+                return _MessageTitle(
+                  messageData: MessageData(
+                    username: '${user.firstname} ${user.lastname}',
+                    message: 'See message',
+                    createdAt: user.lastMessageTime,
+                    senderID: currUser,
+                    recieverID: user.id,
+                    urlAvatar: Helpers.randomPictureUrl(),
+                  ),
+                );
+              }, */
 
 class MessagesPage extends StatelessWidget {
   const MessagesPage({Key? key}) : super(key: key);
@@ -17,15 +36,18 @@ class MessagesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String currUser = context.read<AuthBloc>().state.user!.uid;
+    final chatBloc = context.read<ChatBloc>();
     return Scaffold(
       appBar: AppBar(title: const Text('Messages')),
-      body: BlocBuilder<ChatBloc, ChatState>(
-        builder: (context, state) {
-          if (state.chatStatus == ChatStatus.loaded) {
+      body: StreamBuilder<List<User>>(
+        stream: chatBloc.getUsers(currUser),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final data = snapshot.data!;
             return ListView.builder(
-              itemCount: state.users.length,
+              itemCount: data.length,
               itemBuilder: (context, index) {
-                final user = state.users[index];
+                final user = data[index];
 
                 if (user.id == currUser) {
                   return Container();
@@ -43,11 +65,12 @@ class MessagesPage extends StatelessWidget {
                 );
               },
             );
-          } else {
-            return const Center(
-              child: CircularProgressIndicator.adaptive(),
-            );
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
           }
+          return const Center(
+            child: CircularProgressIndicator.adaptive(),
+          );
         },
       ),
     );
