@@ -10,4 +10,12 @@ class HealthData {
     required this.steps,
     required this.distanceWalking,
   });
+
+  factory HealthData.initial() {
+    return HealthData(
+        heartRate: 'N/A',
+        sleepInBed: 'N/A',
+        steps: 'N/A',
+        distanceWalking: 'N/A');
+  }
 }

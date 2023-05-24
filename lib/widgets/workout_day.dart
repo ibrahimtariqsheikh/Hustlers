@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:synew_gym/blocs/workout/workout_cubit.dart';
+import 'package:synew_gym/blocs/workout/cubit/workout_cubit.dart';
 import 'package:synew_gym/constants/colors.dart';
 import 'package:synew_gym/models/workout.dart';
 import 'package:synew_gym/widgets/login_button.dart';

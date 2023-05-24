@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:synew_gym/blocs/auth_landing/auth_landing_cubit.dart';
+import 'package:synew_gym/blocs/auth_landing/cubit/auth_landing_cubit.dart';
 import 'package:synew_gym/constants/colors.dart';
 import 'package:synew_gym/pages/signin_page.dart';
 import 'package:synew_gym/pages/signup_page.dart';

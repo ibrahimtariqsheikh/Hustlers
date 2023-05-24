@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:synew_gym/blocs/auth/auth_bloc.dart';
-import 'package:synew_gym/blocs/nutrition/nutrition_bloc.dart';
+import 'package:synew_gym/blocs/auth/bloc/auth_bloc.dart';
+import 'package:synew_gym/blocs/nutrition/bloc/nutrition_bloc.dart';
 import 'package:synew_gym/models/food.dart';
 import 'package:synew_gym/widgets/my_text_field.dart';
 

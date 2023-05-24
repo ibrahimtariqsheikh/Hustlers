@@ -3,7 +3,7 @@ import 'dart:math';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:synew_gym/blocs/profile/profile_cubit.dart';
+import 'package:synew_gym/blocs/profile/cubit/profile_cubit.dart';
 import 'package:synew_gym/models/exercise.dart';
 import 'package:synew_gym/models/exercises.dart';
 import 'package:synew_gym/models/workout.dart';

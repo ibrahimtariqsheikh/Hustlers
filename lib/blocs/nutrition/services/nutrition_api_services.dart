@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:synew_gym/models/food.dart';
-import '../.env';
+import '../../../.env';
 
 class NutritionApiServices {
   Future<List<Food>> searchFood(String query) async {

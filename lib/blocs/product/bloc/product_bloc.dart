@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:synew_gym/models/products.dart';
 import 'package:synew_gym/models/custom_error.dart';
-import 'package:synew_gym/repositories/shop_repository.dart';
+import 'package:synew_gym/blocs/product/repository/shop_repository.dart';
 part 'product_event.dart';
 part 'product_state.dart';
 

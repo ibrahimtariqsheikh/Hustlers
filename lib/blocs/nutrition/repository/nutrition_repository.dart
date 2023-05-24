@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:synew_gym/constants/db_constants.dart';
 import 'package:synew_gym/models/food.dart';
 import 'package:synew_gym/models/user_daily_nutrition.dart';
-import 'package:synew_gym/services/nutrition_api_services.dart';
+import 'package:synew_gym/blocs/nutrition/services/nutrition_api_services.dart';
 
 class NutritionRepository {
   final NutritionApiServices nutritionApiServices;
@@ -27,6 +27,17 @@ class NutritionRepository {
     required UserFoodNutrition updatedUserFoodNutrition,
   }) async {
     await nutrientsRef.doc(uid).update(updatedUserFoodNutrition.toJson());
+  }
+
+  Future<void> updateGoals(String uid, double goalCalories, double goalFat,
+      double goalProtein, double goalCarbs) async {
+    DocumentReference nutrientsDoc = nutrientsRef.doc(uid);
+    await nutrientsDoc.update({
+      'goalCalories': goalCalories,
+      'goalFat': goalFat,
+      'goalProtein': goalProtein,
+      'goalCarbs': goalCarbs,
+    });
   }
 
   Future<void> updateGoalWater(String uid, int waterGoal) async {

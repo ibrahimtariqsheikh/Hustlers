@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:synew_gym/blocs/auth/auth_bloc.dart';
-import 'package:synew_gym/blocs/nutrition/nutrition_bloc.dart';
+import 'package:synew_gym/blocs/auth/bloc/auth_bloc.dart';
+import 'package:synew_gym/blocs/nutrition/bloc/nutrition_bloc.dart';
 import 'package:synew_gym/constants/colors.dart';
 import 'package:synew_gym/widgets/login_button.dart';
 import 'package:synew_gym/widgets/workout_text_feild.dart';
@@ -52,7 +52,7 @@ class ManageGoalsPage extends StatelessWidget {
                                 .read<NutritionBloc>()
                                 .add(UpdateGoalCaloriesEvent(
                                   uid: uid,
-                                  goalCalories: int.parse(goalCalories),
+                                  goalCalories: goalCalories,
                                 ));
                           },
                         ),
@@ -66,7 +66,7 @@ class ManageGoalsPage extends StatelessWidget {
                                 .read<NutritionBloc>()
                                 .add(UpdateGoalCarbsEvent(
                                   uid: uid,
-                                  goalCarbs: int.parse(goalCarbs),
+                                  goalCarbs: goalCarbs,
                                 ));
                           },
                         ),
@@ -80,7 +80,7 @@ class ManageGoalsPage extends StatelessWidget {
                                 .read<NutritionBloc>()
                                 .add(UpdateGoalFatsEvent(
                                   uid: uid,
-                                  goalFats: int.parse(goalFats),
+                                  goalFats: goalFats,
                                 ));
                           },
                         ),
@@ -94,7 +94,7 @@ class ManageGoalsPage extends StatelessWidget {
                                 .read<NutritionBloc>()
                                 .add(UpdateGoalProteinsEvent(
                                   uid: uid,
-                                  goalProteins: int.parse(goalProteins),
+                                  goalProteins: goalProteins,
                                 ));
                           },
                         ),
@@ -107,6 +107,9 @@ class ManageGoalsPage extends StatelessWidget {
                           isSubmitting: false,
                           isOutlined: false,
                           buttonAction: () {
+                            context.read<NutritionBloc>().add(UpdateGoalsEvent(
+                                  uid: uid,
+                                ));
                             Navigator.pop(context);
                           },
                         )

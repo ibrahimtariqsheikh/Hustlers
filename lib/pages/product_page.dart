@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:synew_gym/blocs/cart/cart_cubit.dart';
+import 'package:synew_gym/blocs/cart/cubit/cart_cubit.dart';
 import 'package:synew_gym/constants/colors.dart';
 import 'package:synew_gym/models/products.dart';
 import 'package:synew_gym/pages/cart_page.dart';
@@ -197,16 +197,18 @@ class ProductPage extends StatelessWidget {
                                         .selectColor(hexCode);
                                   },
                                   child: CircleAvatar(
-                                    backgroundColor: Color(
-                                      int.parse(hexCode),
-                                    ),
-                                    child:
+                                    radius: 20,
+                                    backgroundColor:
                                         (state.currentProduct.selectedColor ==
                                                 hexCode)
-                                            ? const Icon(
-                                                Icons.check,
-                                              )
-                                            : null,
+                                            ? Theme.of(context).primaryColor
+                                            : Colors.transparent,
+                                    child: CircleAvatar(
+                                      radius: 18,
+                                      backgroundColor: Color(
+                                        int.parse(hexCode),
+                                      ),
+                                    ),
                                   ),
                                 ),
                                 const SizedBox(
@@ -297,8 +299,12 @@ class SizeWidget extends StatelessWidget {
                   : Theme.of(context).cardColor,
           child: Text(
             product.size[index],
-            style: const TextStyle(
-                fontWeight: FontWeight.bold, color: Colors.white),
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color:
+                    (state.currentProduct.selectedSize == product.size[index])
+                        ? Colors.white
+                        : Theme.of(context).textTheme.bodyLarge!.color),
           ),
         ),
       );

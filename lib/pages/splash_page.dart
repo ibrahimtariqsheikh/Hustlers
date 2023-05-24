@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:synew_gym/app_theme.dart';
-import 'package:synew_gym/blocs/auth/auth_bloc.dart';
+import 'package:synew_gym/blocs/auth/bloc/auth_bloc.dart';
 import 'package:synew_gym/pages/auth_landing.dart';
 import 'package:synew_gym/pages/tab_bar_page.dart';
 import 'package:synew_gym/widgets/glowing_action_button.dart';

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:synew_gym/helpers.dart';
+import 'package:synew_gym/constants/helpers.dart';
 import 'package:synew_gym/models/message_data.dart';
 import 'package:synew_gym/models/user_model.dart';
 

@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
-import 'package:synew_gym/blocs/cart/cart_cubit.dart';
+import 'package:synew_gym/blocs/cart/cubit/cart_cubit.dart';
 import 'package:synew_gym/constants/colors.dart';
 import 'package:synew_gym/models/cart_product.dart';
-import 'package:synew_gym/services/stripe_api_services.dart';
+import 'package:synew_gym/blocs/product/services/stripe_api_services.dart';
 import 'package:synew_gym/widgets/login_button.dart';
 import 'package:synew_gym/widgets/my_divider.dart';
 

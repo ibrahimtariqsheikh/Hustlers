@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:synew_gym/blocs/workout/workout_cubit.dart';
+import 'package:synew_gym/blocs/workout/cubit/workout_cubit.dart';
 import 'package:synew_gym/constants/colors.dart';
-import 'package:synew_gym/helpers.dart';
+import 'package:synew_gym/constants/helpers.dart';
 import 'package:synew_gym/widgets/day_clip.dart';
 import 'package:synew_gym/widgets/login_button.dart';
 import 'package:synew_gym/widgets/workout_day.dart';
@@ -91,7 +91,6 @@ class _CreateNewWorkoutState extends State<CreateNewWorkout> {
                         ],
                       ),
                     ),
-
                     const SizedBox(
                       height: 20,
                     ),
@@ -129,22 +128,8 @@ class _CreateNewWorkoutState extends State<CreateNewWorkout> {
                       },
                     ),
                     const SizedBox(
-                      height: 20,
-                    ),
-                    const MyButton(
-                      buttonText: 'Add To Feed',
-                      buttonIcon: CupertinoIcons.share,
-                      buttonColor: Colors.green,
-                      buttonWidth: double.infinity,
-                      buttonHeight: 60,
-                      isSubmitting: false,
-                      isOutlined: false,
-                      borderRadius: 30,
-                    ),
-                    const SizedBox(
                       height: 40,
                     ),
-//add here
                   ],
                 ))));
   }

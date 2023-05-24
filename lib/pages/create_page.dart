@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:synew_gym/blocs/profile/profile_cubit.dart';
+import 'package:synew_gym/blocs/profile/cubit/profile_cubit.dart';
 import 'package:synew_gym/constants/colors.dart';
 import 'package:synew_gym/models/workout.dart';
 import 'package:synew_gym/pages/create_new_workout.dart';
 import 'package:synew_gym/pages/workout_page.dart';
-import 'package:synew_gym/widgets/login_button.dart';
 
 class CreatePage extends StatefulWidget {
   static const String routeName = '/createpage';
@@ -57,6 +56,23 @@ class _CreatePageState extends State<CreatePage> {
           return WillPopScope(
             onWillPop: () async => false,
             child: Scaffold(
+              appBar: AppBar(
+                title: const Text('Workouts'),
+                actions: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: IconButton(
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          CreateNewWorkout.routeName,
+                        );
+                      },
+                      icon: const Icon(Icons.add),
+                    ),
+                  )
+                ],
+              ),
               body: Column(
                 children: [
                   Expanded(
@@ -108,30 +124,44 @@ class _CreatePageState extends State<CreatePage> {
                                     ),
                                   ],
                                 ),
-                                child: ListTile(
-                                  title: Text(
-                                    state.user.workouts![index].name,
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
+                                child: Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(horizontal: 8),
+                                  decoration: const BoxDecoration(
+                                    border: Border(
+                                      bottom: BorderSide(
+                                        color: Colors.grey,
+                                        width: 0.2,
+                                      ),
+                                    ),
                                   ),
-                                  subtitle: Text(
-                                    '@${state.user.username}',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium!
-                                        .copyWith(fontSize: 10),
-                                  ),
-                                  leading: Icon(
-                                    Icons.fitness_center,
-                                    color: Theme.of(context).iconTheme.color,
-                                  ),
-                                  trailing: IconButton(
-                                    icon: Icon(
-                                      Icons.arrow_forward_ios,
+                                  child: ListTile(
+                                    title: Text(
+                                      state.user.workouts![index].name,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium,
+                                    ),
+                                    subtitle: Text(
+                                      '@${state.user.username}',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium!
+                                          .copyWith(fontSize: 10),
+                                    ),
+                                    leading: Icon(
+                                      Icons.fitness_center,
                                       color: Theme.of(context).iconTheme.color,
                                     ),
-                                    onPressed: () => _goToWorkoutPage(
-                                      state.user.workouts![index].name,
+                                    trailing: IconButton(
+                                      icon: Icon(
+                                        Icons.arrow_forward_ios,
+                                        color:
+                                            Theme.of(context).iconTheme.color,
+                                      ),
+                                      onPressed: () => _goToWorkoutPage(
+                                        state.user.workouts![index].name,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -139,29 +169,6 @@ class _CreatePageState extends State<CreatePage> {
                             },
                           ),
                   ),
-                  Expanded(
-                      flex: 1,
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            MyButton(
-                              buttonText: 'Add Workout',
-                              buttonColor: primaryColor,
-                              buttonWidth: 300,
-                              buttonHeight: 50,
-                              buttonAction: () => Navigator.pushNamed(
-                                context,
-                                CreateNewWorkout.routeName,
-                              ),
-                              isSubmitting: false,
-                              isOutlined: false,
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                          ],
-                        ),
-                      )),
                 ],
               ),
             ),

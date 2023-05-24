@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import '../.env';
+import '../../../.env';
 
 class StripeApiServices {
   createPaymentIntent(double amount, String currency) async {

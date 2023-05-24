@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:synew_gym/app_theme.dart';
-import 'package:synew_gym/blocs/auth/auth_bloc.dart';
-import 'package:synew_gym/blocs/chat/chat_bloc.dart';
+import 'package:synew_gym/blocs/auth/bloc/auth_bloc.dart';
+import 'package:synew_gym/blocs/chat/bloc/chat_bloc.dart';
 import 'package:synew_gym/models/message_data.dart';
 import 'package:synew_gym/pages/chat_screen.dart';
 
 import 'package:synew_gym/widgets/avatar.dart';
 
-import '../helpers.dart';
+import '../constants/helpers.dart';
 
 class MessagesPage extends StatelessWidget {
   const MessagesPage({Key? key}) : super(key: key);
@@ -17,36 +17,39 @@ class MessagesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String currUser = context.read<AuthBloc>().state.user!.uid;
-    return BlocBuilder<ChatBloc, ChatState>(
-      builder: (context, state) {
-        if (state.chatStatus == ChatStatus.loaded) {
-          return ListView.builder(
-            itemCount: state.users.length,
-            itemBuilder: (context, index) {
-              final user = state.users[index];
+    return Scaffold(
+      appBar: AppBar(title: const Text('Messages')),
+      body: BlocBuilder<ChatBloc, ChatState>(
+        builder: (context, state) {
+          if (state.chatStatus == ChatStatus.loaded) {
+            return ListView.builder(
+              itemCount: state.users.length,
+              itemBuilder: (context, index) {
+                final user = state.users[index];
 
-              if (user.id == currUser) {
-                return Container();
-              }
+                if (user.id == currUser) {
+                  return Container();
+                }
 
-              return _MessageTitle(
-                messageData: MessageData(
-                  username: '${user.firstname} ${user.lastname}',
-                  message: 'See message',
-                  createdAt: user.lastMessageTime,
-                  senderID: currUser,
-                  recieverID: user.id,
-                  urlAvatar: Helpers.randomPictureUrl(),
-                ),
-              );
-            },
-          );
-        } else {
-          return const Center(
-            child: CircularProgressIndicator.adaptive(),
-          );
-        }
-      },
+                return _MessageTitle(
+                  messageData: MessageData(
+                    username: '${user.firstname} ${user.lastname}',
+                    message: 'See message',
+                    createdAt: user.lastMessageTime,
+                    senderID: currUser,
+                    recieverID: user.id,
+                    urlAvatar: Helpers.randomPictureUrl(),
+                  ),
+                );
+              },
+            );
+          } else {
+            return const Center(
+              child: CircularProgressIndicator.adaptive(),
+            );
+          }
+        },
+      ),
     );
   }
 }

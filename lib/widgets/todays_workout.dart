@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:synew_gym/blocs/profile/profile_cubit.dart';
+import 'package:synew_gym/blocs/profile/cubit/profile_cubit.dart';
 import 'package:synew_gym/constants/colors.dart';
-import 'package:synew_gym/helpers.dart';
+import 'package:synew_gym/constants/helpers.dart';
 import 'package:synew_gym/models/exercise.dart';
 import 'package:synew_gym/models/exercises.dart';
 
