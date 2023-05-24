@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:synew_gym/constants/helpers.dart';
 import 'package:synew_gym/models/message_data.dart';
 import 'package:synew_gym/models/user_model.dart';
 
@@ -9,11 +8,31 @@ class MessageRepository {
 
   MessageRepository(this.firebaseFirestore);
 
-  Stream<List<User>> get availableUsers => FirebaseFirestore.instance
-      .collection('users')
-      .orderBy('lastMessageTime', descending: true)
-      .snapshots()
-      .transform(Helpers.transformer(User.fromJson));
+  Stream<List<User>> getFriends(String userId) {
+    return FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .snapshots()
+        .asyncMap((snapshot) async {
+      if (snapshot.data() != null) {
+        User user = User.fromJson(snapshot.data() as Map<String, dynamic>);
+        List<User> friends = [];
+        for (String friendId in user.friends) {
+          DocumentSnapshot friendSnapshot = await FirebaseFirestore.instance
+              .collection('users')
+              .doc(friendId)
+              .get();
+          if (friendSnapshot.data() != null) {
+            friends.add(
+                User.fromJson(friendSnapshot.data() as Map<String, dynamic>));
+          }
+        }
+        return friends;
+      } else {
+        return <User>[];
+      }
+    });
+  }
 
   Stream<List<MessageData>> getMessages(String senderID, String recieverID) {
     final Stream<QuerySnapshot<Map<String, dynamic>>> sentMessages =

@@ -70,8 +70,7 @@ class AuthRepository {
               gender: '',
               email: signedInUser.email ?? '',
               bio: '',
-              followers: const [],
-              following: const [],
+              friends: const [],
               workouts: const [],
               lastMessageTime: DateTime.now(),
             );
@@ -153,8 +152,7 @@ class AuthRepository {
           username: signedInUser.displayName ?? '',
           email: signedInUser.email ?? '',
           bio: '',
-          followers: const [],
-          following: const [],
+          friends: const [],
           workouts: const [],
           lastMessageTime: DateTime.now(),
         );
@@ -200,8 +198,7 @@ class AuthRepository {
             email: signedInUser.email ?? '',
             bio: '',
             lastMessageTime: DateTime.now(),
-            followers: const [],
-            following: const [],
+            friends: const [],
             workouts: const [],
           );
           await docRef.set(user.toJson());
@@ -252,8 +249,7 @@ class AuthRepository {
         email: email,
         bio: '',
         lastMessageTime: DateTime.now(),
-        followers: const [],
-        following: const [],
+        friends: const [],
         workouts: const [],
       );
       await usersRef.doc(signedInUser.uid).set(user.toJson());

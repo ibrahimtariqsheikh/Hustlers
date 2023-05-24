@@ -14,10 +14,6 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   late final StreamSubscription userSubscription;
 
   ChatBloc({required this.messageRepository}) : super(ChatState.initial()) {
-    userSubscription = messageRepository.availableUsers.listen((users) {
-      add(GetUserEvent(users: users));
-    });
-
     on<GetUserEvent>((event, emit) {
       if (event.users != []) {
         emit(state.copyWith(
@@ -42,5 +38,9 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   }
   Stream<List<MessageData>> getMessages(String senderID, String receiverID) {
     return messageRepository.getMessages(senderID, receiverID);
+  }
+
+  Stream<List<User>> getUsers(String uid) {
+    return messageRepository.getFriends(uid);
   }
 }

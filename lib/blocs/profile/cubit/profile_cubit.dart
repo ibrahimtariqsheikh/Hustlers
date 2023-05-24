@@ -18,6 +18,16 @@ class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit({required this.profileRepository})
       : super(ProfileState.initial());
 
+  void addFriend({required String friendId}) {
+    List<String> friendsList = List.from(state.user.friends);
+    if (!friendsList.contains(friendId)) {
+      friendsList.add(friendId);
+    }
+    final updatedUser = state.user.copyWith(friends: friendsList);
+
+    emit(state.copyWith(user: updatedUser));
+  }
+
   Future<void> getUserDetails({required String uid}) async {
     emit(state.copyWith(status: ProfileStatus.loading));
 

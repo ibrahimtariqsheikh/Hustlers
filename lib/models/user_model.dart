@@ -12,8 +12,7 @@ class User extends Equatable {
   final String email;
   final String? bio;
   final DateTime lastMessageTime;
-  final List<String>? followers;
-  final List<String>? following;
+  final List<String> friends;
   final List<Workout>? workouts;
 
   const User({
@@ -25,8 +24,7 @@ class User extends Equatable {
     required this.email,
     required this.lastMessageTime,
     this.bio,
-    this.followers,
-    this.following,
+    required this.friends,
     this.workouts,
   });
 
@@ -43,8 +41,7 @@ class User extends Equatable {
       bio: userData['bio'],
       lastMessageTime:
           Helpers.toDateTime(userData['lastMessageTime'] as Timestamp),
-      followers: List<String>.from(userData['followers'] as List<dynamic>),
-      following: List<String>.from(userData['following'] as List<dynamic>),
+      friends: List<String>.from(userData['friends'] as List<dynamic>),
       workouts: (userData['workouts'] as List<dynamic>?)
           ?.map((workoutMap) =>
               Workout.fromJson(workoutMap as Map<String, dynamic>))
@@ -62,8 +59,7 @@ class User extends Equatable {
       email: '',
       bio: '',
       lastMessageTime: DateTime.now(),
-      followers: const [],
-      following: const [],
+      friends: const [],
       workouts: const [],
     );
   }
@@ -77,8 +73,7 @@ class User extends Equatable {
         "email": email,
         "bio": bio,
         "lastMessageTime": Helpers.fromDateTimeToJson(lastMessageTime),
-        "followers": followers,
-        "following": following,
+        "friends": friends,
         "workouts": workouts?.map((workout) => workout.toJson()).toList(),
       };
 
@@ -96,8 +91,7 @@ class User extends Equatable {
       email,
       bio,
       lastMessageTime,
-      followers,
-      following,
+      friends,
       workouts,
     ];
   }
@@ -112,8 +106,7 @@ class User extends Equatable {
       email: json['email'],
       bio: json['bio'],
       lastMessageTime: Helpers.toDateTime(json['lastMessageTime'] as Timestamp),
-      followers: List<String>.from(json['followers'] as List<dynamic>),
-      following: List<String>.from(json['following'] as List<dynamic>),
+      friends: List<String>.from(json['friends'] as List<dynamic>),
       workouts: (json['workouts'] as List<dynamic>?)
           ?.map((workoutMap) =>
               Workout.fromJson(workoutMap as Map<String, dynamic>))
@@ -130,8 +123,7 @@ class User extends Equatable {
     String? email,
     String? bio,
     DateTime? lastMessageTime,
-    List<String>? followers,
-    List<String>? following,
+    List<String>? friends,
     List<Workout>? workouts,
   }) {
     return User(
@@ -143,8 +135,7 @@ class User extends Equatable {
       email: email ?? this.email,
       bio: bio ?? this.bio,
       lastMessageTime: lastMessageTime ?? this.lastMessageTime,
-      followers: followers ?? this.followers,
-      following: following ?? this.following,
+      friends: friends ?? this.friends,
       workouts: workouts ?? this.workouts,
     );
   }
