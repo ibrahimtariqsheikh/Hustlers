@@ -4,34 +4,35 @@ enum FriendsStatus {
   initial,
   loading,
   loaded,
+  error,
 }
 
 class FriendsState extends Equatable {
   final FriendsStatus friendsStatus;
-  final List<User> users;
+  final List<User> fetchedUsers;
 
   const FriendsState({
     required this.friendsStatus,
-    required this.users,
+    required this.fetchedUsers,
   });
 
   factory FriendsState.initial() {
     return const FriendsState(
       friendsStatus: FriendsStatus.initial,
-      users: [],
+      fetchedUsers: [],
     );
   }
 
   @override
-  List<Object> get props => [friendsStatus, users];
+  List<Object> get props => [friendsStatus, fetchedUsers];
 
   FriendsState copyWith({
     FriendsStatus? friendsStatus,
-    List<User>? users,
+    List<User>? fetchedUsers,
   }) {
     return FriendsState(
       friendsStatus: friendsStatus ?? this.friendsStatus,
-      users: users ?? this.users,
+      fetchedUsers: fetchedUsers ?? this.fetchedUsers,
     );
   }
 

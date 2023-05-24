@@ -8,11 +8,15 @@ import 'package:synew_gym/blocs/nutrition/bloc/nutrition_bloc.dart';
 import 'package:synew_gym/blocs/profile/cubit/profile_cubit.dart';
 import 'package:synew_gym/blocs/tab_bar/cubit/tab_bar_cubit.dart';
 import 'package:synew_gym/blocs/tab_bar/cubit/tab_bar_state.dart';
+import 'package:synew_gym/constants/helpers.dart';
+import 'package:synew_gym/pages/auth_landing.dart';
 import 'package:synew_gym/pages/messages_page.dart';
 import 'package:synew_gym/pages/profile_page.dart';
 import 'package:synew_gym/pages/create_page.dart';
 import 'package:synew_gym/pages/nutrition_page.dart';
+import 'package:synew_gym/pages/search_page.dart';
 import 'package:synew_gym/pages/shop_page.dart';
+import 'package:synew_gym/widgets/avatar.dart';
 
 final children = [
   'Nutrition',
@@ -50,6 +54,59 @@ class _TabBarPageState extends State<TabBarPage> {
       builder: (context, state) {
         final bloc = BlocProvider.of<TabBarCubit>(context);
         return Scaffold(
+          drawer: BlocBuilder<ProfileCubit, ProfileState>(
+              builder: (context, state) {
+            return Drawer(
+              child: SafeArea(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: ListView(
+                    children: [
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      ListTile(
+                        leading: Avatar.small(url: Helpers.randomPictureUrl()),
+                        title: Text(
+                          state.user.firstname,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                        subtitle: const Text('16 Followers - 16 following'),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      const DrawerTile(
+                        label: 'Settings and privacy',
+                        icon: Icon(Icons.settings),
+                        onTap: null,
+                      ),
+                      DrawerTile(
+                        label: 'Add Friends',
+                        icon: const Icon(Icons.people),
+                        onTap: () {
+                          Navigator.pop(context);
+                          Navigator.pushNamed(context, SearchPage.routeName);
+                        },
+                      ),
+                      DrawerTile(
+                        label: 'Sign Out',
+                        icon: const Icon(Icons.exit_to_app),
+                        onTap: () {
+                          context.read<AuthBloc>().add(SignOutRequestedEvent());
+                          Navigator.pushNamedAndRemoveUntil(
+                              context, AuthLanding.routeName, (route) => false);
+                        },
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }),
           body: _createBody(context, bloc.state.index),
           bottomNavigationBar: _BottomNavigationBar(
             onItemSelected: bloc.state.index,

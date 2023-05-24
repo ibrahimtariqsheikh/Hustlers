@@ -1,9 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:synew_gym/blocs/nutrition/bloc/nutrition_bloc.dart';
-import 'package:synew_gym/blocs/profile/cubit/profile_cubit.dart';
-import 'package:synew_gym/models/food.dart';
+import 'package:synew_gym/blocs/friends/bloc/friends_bloc.dart';
+import 'package:synew_gym/constants/helpers.dart';
+import 'package:synew_gym/widgets/avatar.dart';
 import 'package:synew_gym/widgets/my_text_field.dart';
 
 class SearchPage extends StatelessWidget {
@@ -30,27 +29,27 @@ class SearchPage extends StatelessWidget {
 }
 
 Widget _buildSearchBar(BuildContext context) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-    child: MyTextField(
-      prefixIcon: const Icon(Icons.search),
-      onFieldSubmitted: (username) {
-        print(username);
-      },
-      hintText: 'enter username',
-    ),
-  );
+  return BlocBuilder<FriendsBloc, FriendsState>(builder: (context, state) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+      child: MyTextField(
+        prefixIcon: const Icon(Icons.search),
+        onFieldSubmitted: (username) {},
+        hintText: 'Enter Username',
+      ),
+    );
+  });
 }
 
 Widget _buildSearchList(BuildContext context) {
   return Expanded(
-    child: BlocBuilder<ProfileCubit, ProfileState>(
+    child: BlocBuilder<FriendsBloc, FriendsState>(
       builder: (context, state) {
-        if (state.status == ProfileStatus.loading) {
+        if (state.friendsStatus == FriendsStatus.loading) {
           return const Center(child: CircularProgressIndicator.adaptive());
-        } else if (state.status == ProfileStatus.loaded) {
+        } else if (state.friendsStatus == FriendsStatus.initial) {
           return ListView.builder(
-            itemCount: 1,
+            itemCount: 10,
             itemBuilder: (context, index) {
               return Padding(
                 padding:
@@ -67,70 +66,44 @@ Widget _buildSearchList(BuildContext context) {
                             ),
                       ),
                     if (index == 0) const SizedBox(height: 15),
-                    const ListTile(
-                      title: Text('User found'),
+                    ListTile(
+                      leading: Avatar.small(url: Helpers.randomPictureUrl()),
+                      title: Text(
+                        'Username',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge!
+                            .copyWith(fontSize: 15),
+                      ),
+                      subtitle: Text(
+                        'Full name',
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyMedium!
+                            .copyWith(fontSize: 12),
+                      ),
+                      trailing: ElevatedButton(
+                        onPressed: () {},
+                        child: const Text('Add'),
+                      ),
                     )
                   ],
                 ),
               );
             },
           );
-        } else if (state.status == NutririonStatus.error) {
-          return Center(
+        } else if (state.friendsStatus == FriendsStatus.error) {
+          return const Center(
             child: Text(
-              state.error.message,
-              style: const TextStyle(color: Colors.red),
+              'Users not found',
+              style: TextStyle(color: Colors.red),
             ),
           );
         } else {
-          return const Center(child: Text('Search for food to get started'));
+          return const Center(
+              child: Text('Search for people to add as your friends'));
         }
       },
     ),
   );
-}
-
-class FoodItemWidget extends StatelessWidget {
-  final Food foodItem;
-
-  const FoodItemWidget({
-    super.key,
-    required this.foodItem,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: ListTile(
-        title: Text(
-          foodItem.name,
-          style: Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 14),
-        ),
-        subtitle: Row(
-          children: [
-            Text('${foodItem.calories} calories\n${foodItem.brand}'),
-          ],
-        ),
-        trailing: SizedBox(
-            height: 30,
-            width: 30,
-            child: GestureDetector(
-              onTap: () {
-                Navigator.pop(context);
-              },
-              child: const CircleAvatar(
-                child: Icon(
-                  CupertinoIcons.add,
-                  size: 20,
-                ),
-              ),
-            )),
-      ),
-    );
-  }
 }

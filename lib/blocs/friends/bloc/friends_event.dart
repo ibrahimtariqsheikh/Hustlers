@@ -7,10 +7,13 @@ abstract class FriendsEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class GetUserEvent extends FriendsEvent {
-  final List<User> users;
-  const GetUserEvent({required this.users});
+class SearchUsersByUsernameEvent extends FriendsEvent {
+  final String username;
+
+  const SearchUsersByUsernameEvent({
+    required this.username,
+  });
 
   @override
-  List<Object?> get props => [users];
+  List<Object?> get props => [username];
 }

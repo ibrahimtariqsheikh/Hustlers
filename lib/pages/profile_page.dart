@@ -2,16 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:synew_gym/blocs/auth/bloc/auth_bloc.dart';
 import 'package:synew_gym/blocs/nutrition/bloc/nutrition_bloc.dart';
 import 'package:synew_gym/blocs/profile/cubit/profile_cubit.dart';
 import 'package:synew_gym/constants/colors.dart';
 import 'package:synew_gym/constants/helpers.dart';
 import 'package:synew_gym/models/exercises.dart';
 import 'package:synew_gym/models/workout.dart';
-import 'package:synew_gym/pages/auth_landing.dart';
-import 'package:synew_gym/pages/search_page.dart';
-import 'package:synew_gym/widgets/avatar.dart';
 import 'package:synew_gym/widgets/circular_progress.dart';
 import 'package:synew_gym/widgets/custom_card.dart';
 import 'package:synew_gym/widgets/todays_workout.dart';
@@ -42,64 +38,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
         if (state.status == ProfileStatus.loaded) {
           return Scaffold(
-              endDrawer: BlocBuilder<ProfileCubit, ProfileState>(
-                  builder: (context, state) {
-                return Drawer(
-                  child: SafeArea(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: ListView(
-                        children: [
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          ListTile(
-                            leading:
-                                Avatar.small(url: Helpers.randomPictureUrl()),
-                            title: Text(
-                              state.user.firstname,
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                            subtitle: const Text('16 Followers - 16 following'),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          const DrawerTile(
-                            label: 'Settings and privacy',
-                            icon: Icon(Icons.settings),
-                            onTap: null,
-                          ),
-                          DrawerTile(
-                            label: 'Add Friends',
-                            icon: const Icon(Icons.people),
-                            onTap: () {
-                              Navigator.pop(context);
-                              Navigator.pushNamed(
-                                  context, SearchPage.routeName);
-                            },
-                          ),
-                          DrawerTile(
-                            label: 'Sign Out',
-                            icon: const Icon(Icons.exit_to_app),
-                            onTap: () {
-                              context
-                                  .read<AuthBloc>()
-                                  .add(SignOutRequestedEvent());
-                              Navigator.pushNamedAndRemoveUntil(context,
-                                  AuthLanding.routeName, (route) => false);
-                            },
-                          ),
-                          const Spacer(),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              }),
               appBar: AppBar(
                 title: const Text('Today'),
               ),
@@ -411,7 +349,7 @@ class StepsCard extends StatelessWidget {
                         .bodyLarge!
                         .copyWith(fontSize: 16)),
                 Text(
-                    '${double.parse(showDistanceWalking).toStringAsFixed(2)} KM',
+                    '${double.parse(showDistanceWalking).toStringAsFixed(2)} meters',
                     style: Theme.of(context).textTheme.bodyMedium),
                 const SizedBox(
                   height: 10,

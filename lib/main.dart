@@ -12,6 +12,7 @@ import 'package:synew_gym/blocs/cart/cubit/cart_cubit.dart';
 import 'package:synew_gym/blocs/category_toggle/cubit/category_cubit.dart';
 import 'package:synew_gym/blocs/chat/bloc/chat_bloc.dart';
 import 'package:synew_gym/blocs/friends/bloc/friends_bloc.dart';
+import 'package:synew_gym/blocs/friends/repositories/friends_repository.dart';
 import 'package:synew_gym/blocs/nutrition/bloc/nutrition_bloc.dart';
 import 'package:synew_gym/blocs/product/bloc/product_bloc.dart';
 import 'package:synew_gym/blocs/profile/cubit/profile_cubit.dart';
@@ -72,6 +73,11 @@ class MyApp extends StatelessWidget {
         RepositoryProvider<UserRepository>(
           create: (context) =>
               UserRepository(_firebaseFirestore, _firebaseAuth),
+        ),
+        RepositoryProvider<FriendsRepository>(
+          create: (context) => FriendsRepository(
+            _firebaseFirestore,
+          ),
         ),
         RepositoryProvider<MessageRepository>(
           create: (context) => MessageRepository(_firebaseFirestore),
@@ -138,7 +144,9 @@ class MyApp extends StatelessWidget {
             create: (context) => CartCubit(),
           ),
           BlocProvider<FriendsBloc>(
-            create: (context) => FriendsBloc(),
+            create: (context) => FriendsBloc(
+              friendsRepository: context.read<FriendsRepository>(),
+            ),
           ),
         ],
         child: MaterialApp(
