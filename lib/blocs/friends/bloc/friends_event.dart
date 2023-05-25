@@ -30,3 +30,16 @@ class AddFriendEvent extends FriendsEvent {
   @override
   List<Object?> get props => [loggedInUserId, friendId];
 }
+
+class ShareWorkoutEvent extends FriendsEvent {
+  final String friendId;
+  final Workout workout;
+
+  const ShareWorkoutEvent({
+    required this.friendId,
+    required this.workout,
+  });
+
+  @override
+  List<Object?> get props => [friendId, workout];
+}

@@ -127,11 +127,18 @@ class WorkoutCubit extends Cubit<WorkoutState> {
     return updatedWorkout;
   }
 
+  void resetWorkout() {
+    emit(state.copyWith(
+      workout: Workout.initial(),
+    ));
+  }
+
   void addWorkoutToFirebase() async {
     emit(state.copyWith(status: WorkoutStatus.loading));
     final workout = state.workout;
 
     await profileCubit.addUserWorkout(workout);
-    emit(state.copyWith(status: WorkoutStatus.loaded));
+    emit(state.copyWith(
+        workout: Workout.initial(), status: WorkoutStatus.loaded));
   }
 }

@@ -82,7 +82,6 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         selectedProducts.addAll(searchProducts(state.mensFootwear, id));
         selectedProducts.addAll(searchProducts(state.womensFootwear, id));
         selectedProducts.addAll(searchProducts(state.nutritionItems, id));
-        print(selectedProducts);
 
         emit(state.copyWith(
           productStatus: ProductStatus.loaded,
