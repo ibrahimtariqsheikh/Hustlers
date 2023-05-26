@@ -17,8 +17,8 @@ class NutritionBloc extends Bloc<NutritionEvent, NutritionState> {
     on<FetchNutrientDataEvent>(((event, emit) async {
       emit(state.copyWith(nutririonStatus: NutririonStatus.loading));
       try {
-        UserFoodNutrition userFoodNutrition =
-            await nutritionRepository.fetchUserNutrientsData(event.uid);
+        UserFoodNutrition userFoodNutrition = await nutritionRepository
+            .fetchUserNutrientsData(event.uid, state.selectedDate);
         emit(state.copyWith(
           userFoodNutrition: userFoodNutrition,
           nutririonStatus: NutririonStatus.loaded,
@@ -33,21 +33,38 @@ class NutritionBloc extends Bloc<NutritionEvent, NutritionState> {
             )));
       }
     }));
+
     on<UpdateCurrentWaterConsumedEvent>(((event, emit) async {
       emit(state.copyWith(nutririonStatus: NutririonStatus.loading));
       try {
-        double updatedWater = double.parse(event.waterConsumed);
+        if (event.waterConsumed != '') {
+          UserFoodNutrition updatedUserFoodNutrition = state.userFoodNutrition
+              .copyWith(
+                  totalWater: state.userFoodNutrition.totalWater +
+                      (double.parse(event.waterConsumed)));
 
-        UserFoodNutrition updatedUserFoodNutrition =
-            state.userFoodNutrition.copyWith(totalWater: updatedWater);
-        emit(state.copyWith(
-          nutririonStatus: NutririonStatus.loaded,
-          userFoodNutrition: updatedUserFoodNutrition,
-        ));
+          emit(state.copyWith(
+            userFoodNutrition: updatedUserFoodNutrition,
+            nutririonStatus: NutririonStatus.loaded,
+          ));
+        }
       } catch (e) {
         emit(state.copyWith(nutririonStatus: NutririonStatus.error));
       }
     }));
+
+    on<StoreCurrentWaterConsumedEvent>(((event, emit) async {
+      try {
+        UserFoodNutrition updatedUserFoodNutrition = state.userFoodNutrition;
+        await nutritionRepository.updateUserFoodNutritionInFirebase(
+            uid: event.uid,
+            updatedUserFoodNutrition: updatedUserFoodNutrition,
+            date: state.userFoodNutrition.date);
+      } catch (e) {
+        emit(state.copyWith(nutririonStatus: NutririonStatus.error));
+      }
+    }));
+
     on<UpdateGoalsEvent>(((event, emit) async {
       emit(state.copyWith(nutririonStatus: NutririonStatus.loading));
       try {
@@ -57,6 +74,7 @@ class NutritionBloc extends Bloc<NutritionEvent, NutritionState> {
           state.userFoodNutrition.goalFat,
           state.userFoodNutrition.goalProtein,
           state.userFoodNutrition.goalCarbs,
+          state.userFoodNutrition.goalWater,
         );
         emit(state.copyWith(
           nutririonStatus: NutririonStatus.loaded,
@@ -82,6 +100,7 @@ class NutritionBloc extends Bloc<NutritionEvent, NutritionState> {
         emit(state.copyWith(nutririonStatus: NutririonStatus.error));
       }
     }));
+
     on<UpdateGoalCarbsEvent>(((event, emit) async {
       emit(state.copyWith(nutririonStatus: NutririonStatus.loading));
       try {
@@ -98,6 +117,7 @@ class NutritionBloc extends Bloc<NutritionEvent, NutritionState> {
         emit(state.copyWith(nutririonStatus: NutririonStatus.error));
       }
     }));
+
     on<UpdateGoalProteinsEvent>(((event, emit) async {
       emit(state.copyWith(nutririonStatus: NutririonStatus.loading));
       try {
@@ -122,6 +142,23 @@ class NutritionBloc extends Bloc<NutritionEvent, NutritionState> {
           double updatedGoal = double.parse(event.goalFats);
           UserFoodNutrition updatedUserFoodNutrition =
               state.userFoodNutrition.copyWith(goalFat: updatedGoal);
+          emit(state.copyWith(
+            nutririonStatus: NutririonStatus.loaded,
+            userFoodNutrition: updatedUserFoodNutrition,
+          ));
+        }
+      } catch (e) {
+        emit(state.copyWith(nutririonStatus: NutririonStatus.error));
+      }
+    }));
+
+    on<UpdateGoalWaterEvent>(((event, emit) async {
+      emit(state.copyWith(nutririonStatus: NutririonStatus.loading));
+      try {
+        if (event.goalWater != '') {
+          double updatedGoal = double.parse(event.goalWater);
+          UserFoodNutrition updatedUserFoodNutrition =
+              state.userFoodNutrition.copyWith(goalWater: updatedGoal);
           emit(state.copyWith(
             nutririonStatus: NutririonStatus.loaded,
             userFoodNutrition: updatedUserFoodNutrition,
@@ -191,9 +228,9 @@ class NutritionBloc extends Bloc<NutritionEvent, NutritionState> {
           userFoodNutrition: updatedUserFoodNutrition,
         ));
         await nutritionRepository.updateUserFoodNutritionInFirebase(
-          uid: event.uid,
-          updatedUserFoodNutrition: updatedUserFoodNutrition,
-        );
+            uid: event.uid,
+            updatedUserFoodNutrition: updatedUserFoodNutrition,
+            date: state.userFoodNutrition.date);
       } catch (e) {
         emit(state.copyWith(
             nutririonStatus: NutririonStatus.error,

@@ -130,30 +130,93 @@ class NutritionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String remainingCalories = (context
-                .read<NutritionBloc>()
-                .state
-                .userFoodNutrition
-                .goalCalories -
-            context.read<NutritionBloc>().state.userFoodNutrition.totalCalories)
-        .toStringAsFixed(0);
-    String remainingCarbs = (context
-                .read<NutritionBloc>()
-                .state
-                .userFoodNutrition
-                .goalCarbs -
-            context.read<NutritionBloc>().state.userFoodNutrition.totalCarbs)
-        .toStringAsFixed(0);
-    String remainingFat =
-        (context.read<NutritionBloc>().state.userFoodNutrition.goalFat -
+                    .read<NutritionBloc>()
+                    .state
+                    .userFoodNutrition
+                    .goalCalories -
+                context
+                    .read<NutritionBloc>()
+                    .state
+                    .userFoodNutrition
+                    .totalCalories) >
+            0
+        ? (context.read<NutritionBloc>().state.userFoodNutrition.goalCalories -
+                context
+                    .read<NutritionBloc>()
+                    .state
+                    .userFoodNutrition
+                    .totalCalories)
+            .toStringAsFixed(0)
+        : '0';
+    String remainingCarbs =
+        (context.read<NutritionBloc>().state.userFoodNutrition.goalCarbs -
+                    context
+                        .read<NutritionBloc>()
+                        .state
+                        .userFoodNutrition
+                        .totalCarbs) >
+                0
+            ? (context.read<NutritionBloc>().state.userFoodNutrition.goalCarbs -
+                    context
+                        .read<NutritionBloc>()
+                        .state
+                        .userFoodNutrition
+                        .totalCarbs)
+                .toStringAsFixed(0)
+            : '0';
+    String remainingFat = (context
+                    .read<NutritionBloc>()
+                    .state
+                    .userFoodNutrition
+                    .goalFat -
+                context
+                    .read<NutritionBloc>()
+                    .state
+                    .userFoodNutrition
+                    .totalFat) >
+            0
+        ? (context.read<NutritionBloc>().state.userFoodNutrition.goalFat -
                 context.read<NutritionBloc>().state.userFoodNutrition.totalFat)
-            .toStringAsFixed(0);
+            .toStringAsFixed(0)
+        : '0';
     String remainingProtein = (context
-                .read<NutritionBloc>()
-                .state
-                .userFoodNutrition
-                .goalProtein -
-            context.read<NutritionBloc>().state.userFoodNutrition.totalProtein)
-        .toStringAsFixed(0);
+                    .read<NutritionBloc>()
+                    .state
+                    .userFoodNutrition
+                    .goalProtein -
+                context
+                    .read<NutritionBloc>()
+                    .state
+                    .userFoodNutrition
+                    .totalProtein) >
+            0
+        ? (context.read<NutritionBloc>().state.userFoodNutrition.goalProtein -
+                context
+                    .read<NutritionBloc>()
+                    .state
+                    .userFoodNutrition
+                    .totalProtein)
+            .toStringAsFixed(0)
+        : '0';
+    String remainingWater = (context
+                    .read<NutritionBloc>()
+                    .state
+                    .userFoodNutrition
+                    .goalWater -
+                context
+                    .read<NutritionBloc>()
+                    .state
+                    .userFoodNutrition
+                    .totalWater) >
+            0
+        ? ((context.read<NutritionBloc>().state.userFoodNutrition.goalWater -
+                context
+                    .read<NutritionBloc>()
+                    .state
+                    .userFoodNutrition
+                    .totalWater)
+            .toStringAsFixed(0))
+        : '0';
 
     double remainingCaloriesPercentage =
         (context.read<NutritionBloc>().state.userFoodNutrition.totalCalories /
@@ -167,6 +230,9 @@ class NutritionCard extends StatelessWidget {
     double remainingProteinPercentage =
         (context.read<NutritionBloc>().state.userFoodNutrition.totalProtein /
             context.read<NutritionBloc>().state.userFoodNutrition.goalProtein);
+    double remainingWaterPercentage =
+        (context.read<NutritionBloc>().state.userFoodNutrition.totalWater /
+            context.read<NutritionBloc>().state.userFoodNutrition.goalWater);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -271,6 +337,28 @@ class NutritionCard extends StatelessWidget {
               width: 20,
               height: 20,
               percentage: remainingFatPercentage,
+              paintWidth: 3,
+            ),
+          ],
+        ),
+        const Spacer(),
+        Row(
+          children: [
+            Text(
+              'Water Left: ',
+              style:
+                  Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 15),
+            ),
+            Text('${remainingWater}g'),
+            const SizedBox(
+              width: 10,
+            ),
+            const Spacer(),
+            CircularProgress(
+              color: Colors.orange,
+              width: 20,
+              height: 20,
+              percentage: remainingWaterPercentage,
               paintWidth: 3,
             ),
           ],

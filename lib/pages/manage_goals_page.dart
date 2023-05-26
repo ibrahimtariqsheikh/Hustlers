@@ -98,6 +98,20 @@ class ManageGoalsPage extends StatelessWidget {
                                 ));
                           },
                         ),
+                        const SizedBox(height: 10),
+                        WorkoutTextField(
+                          label: 'Water',
+                          hintText: 'ml',
+                          keyboardType: TextInputType.number,
+                          onChanged: (goalWater) {
+                            context
+                                .read<NutritionBloc>()
+                                .add(UpdateGoalWaterEvent(
+                                  uid: uid,
+                                  goalWater: goalWater,
+                                ));
+                          },
+                        ),
                         const SizedBox(height: 20),
                         MyButton(
                           buttonText: 'Set Goals',

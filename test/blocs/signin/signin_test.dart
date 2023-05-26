@@ -32,11 +32,11 @@ void main() {
         await cubit.signIn(email: 'test@example.com', password: 'password');
       },
       expect: () => [
-        SignInState(
+        const SignInState(
           signInStatus: SignInStatus.submitting,
           error: CustomError(),
         ),
-        SignInState(
+        const SignInState(
           signInStatus: SignInStatus.success,
           error: CustomError(),
         ),
@@ -57,17 +57,17 @@ void main() {
           email: 'test@example.com',
           password: 'password',
         )).thenThrow(
-          CustomError(code: 'ERROR', message: 'Sign-in failed'),
+          const CustomError(code: 'ERROR', message: 'Sign-in failed'),
         );
 
         await cubit.signIn(email: 'test@example.com', password: 'password');
       },
       expect: () => [
-        SignInState(
+        const SignInState(
           signInStatus: SignInStatus.submitting,
           error: CustomError(),
         ),
-        SignInState(
+        const SignInState(
           signInStatus: SignInStatus.error,
           error: CustomError(code: 'ERROR', message: 'Sign-in failed'),
         ),
@@ -108,11 +108,11 @@ void main() {
         await cubit.signInWithTwitter();
       },
       expect: () => [
-        SignInState(
+        const SignInState(
           signInStatus: SignInStatus.submitting,
           error: CustomError(),
         ),
-        SignInState(
+        const SignInState(
           signInStatus: SignInStatus.success,
           error: CustomError(),
         ),
@@ -129,11 +129,11 @@ void main() {
         await cubit.signInWithFacebook();
       },
       expect: () => [
-        SignInState(
+        const SignInState(
           signInStatus: SignInStatus.submitting,
           error: CustomError(),
         ),
-        SignInState(
+        const SignInState(
           signInStatus: SignInStatus.success,
           error: CustomError(),
         ),

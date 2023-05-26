@@ -12,12 +12,14 @@ class NutritionState extends Equatable {
   final List<Food> foodItems;
   final UserFoodNutrition userFoodNutrition;
   final CustomError error;
+  final String selectedDate;
 
   const NutritionState({
     required this.nutririonStatus,
     required this.foodItems,
     required this.userFoodNutrition,
     required this.error,
+    required this.selectedDate,
   });
 
   factory NutritionState.initial() {
@@ -26,29 +28,28 @@ class NutritionState extends Equatable {
       foodItems: const [],
       userFoodNutrition: UserFoodNutrition.initial(),
       error: const CustomError(),
+      selectedDate:
+          '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}',
     );
   }
 
   @override
-  List<Object> get props => [
-        nutririonStatus,
-        foodItems,
-        userFoodNutrition,
-        error,
-      ];
+  List<Object> get props =>
+      [nutririonStatus, foodItems, userFoodNutrition, error, selectedDate];
 
   NutritionState copyWith({
     NutririonStatus? nutririonStatus,
     List<Food>? foodItems,
     UserFoodNutrition? userFoodNutrition,
     CustomError? error,
+    String? selectedDate,
   }) {
     return NutritionState(
-      nutririonStatus: nutririonStatus ?? this.nutririonStatus,
-      foodItems: foodItems ?? this.foodItems,
-      userFoodNutrition: userFoodNutrition ?? this.userFoodNutrition,
-      error: error ?? this.error,
-    );
+        nutririonStatus: nutririonStatus ?? this.nutririonStatus,
+        foodItems: foodItems ?? this.foodItems,
+        userFoodNutrition: userFoodNutrition ?? this.userFoodNutrition,
+        error: error ?? this.error,
+        selectedDate: selectedDate ?? this.selectedDate);
   }
 
   @override

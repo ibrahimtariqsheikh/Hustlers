@@ -35,7 +35,9 @@ class StatsView extends StatelessWidget {
                 child: Container(),
               ),
               Positioned(
-                top: (160 - (100 * percentage / 100)) - 50,
+                top: (160 -
+                        (100 * (percentage > 100 ? 100 : percentage) / 100)) -
+                    50,
                 right: 0,
                 left: 0,
                 child: CircleAvatar(
@@ -72,9 +74,9 @@ class _FillPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    double minHeight = 50;
-    double fillHeight =
-        minHeight + (size.height - minHeight) * percentage / 100;
+    double minHeight = 55;
+    double fillHeight = minHeight +
+        (size.height - minHeight) * (percentage > 100 ? 100 : percentage) / 100;
     Paint fillPaint = Paint()..color = color;
 
     RRect inner = RRect.fromLTRBR(
