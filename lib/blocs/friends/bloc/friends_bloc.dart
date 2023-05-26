@@ -3,6 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:synew_gym/blocs/friends/repositories/friends_repository.dart';
 import 'package:synew_gym/blocs/profile/cubit/profile_cubit.dart';
 import 'package:synew_gym/models/user_model.dart';
+import 'package:synew_gym/models/workout.dart';
 
 part 'friends_event.dart';
 part 'friends_state.dart';
@@ -25,6 +26,10 @@ class FriendsBloc extends Bloc<FriendsEvent, FriendsState> {
     on<AddFriendEvent>((event, emit) async {
       profileCubit.addFriend(friendId: event.friendId);
       await friendsRepository.addFriend(event.loggedInUserId, event.friendId);
+    });
+
+    on<ShareWorkoutEvent>((event, emit) async {
+      await friendsRepository.shareWorkout(event.friendId, event.workout);
     });
   }
 }

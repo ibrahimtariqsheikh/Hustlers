@@ -21,7 +21,23 @@ class _CreateNewWorkoutState extends State<CreateNewWorkout> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text('Create New Workout')),
+        appBar: AppBar(
+          title: const Text('Create New Workout'),
+          actions: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        context.read<WorkoutCubit>().resetWorkout();
+                      },
+                      icon: const Icon(Icons.delete))
+                ],
+              ),
+            )
+          ],
+        ),
         body: SingleChildScrollView(
             child: Container(
                 padding: const EdgeInsets.all(20),

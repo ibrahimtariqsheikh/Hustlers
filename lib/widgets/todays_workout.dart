@@ -61,7 +61,7 @@ class _TodaysWorkoutState extends State<TodaysWorkout> {
         child: Column(
           children: [
             Container(
-              padding: const EdgeInsets.all(30),
+              padding: const EdgeInsets.symmetric(vertical: 25, horizontal: 30),
               width: MediaQuery.of(context).size.width,
               decoration: BoxDecoration(
                   color: Theme.of(context).cardColor,
@@ -72,14 +72,8 @@ class _TodaysWorkoutState extends State<TodaysWorkout> {
                 children: [
                   Row(
                     children: [
-                      Text(
-                        "${Helpers.daysFull[widget.dayIndex]}'s workout"
-                            .toUpperCase(),
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge!
-                            .copyWith(fontSize: 18),
-                      ),
+                      Text("${widget.exerciseData.name} Workout",
+                          style: Theme.of(context).textTheme.bodyLarge),
                       const Spacer(),
                       InkWell(
                         splashFactory: InkRipple.splashFactory,
@@ -96,15 +90,20 @@ class _TodaysWorkoutState extends State<TodaysWorkout> {
                                 width: 2,
                               ),
                               borderRadius: BorderRadius.circular(10)),
-                          child: const Center(
-                            child: Text('KGS'),
+                          child: Center(
+                            child: Text(Helpers.days[widget.dayIndex]),
                           ),
                         ),
-                      )
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      IconButton(
+                          onPressed: () {}, icon: const Icon(Icons.edit)),
                     ],
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 10,
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -119,7 +118,7 @@ class _TodaysWorkoutState extends State<TodaysWorkout> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '${exerciseIndex + 1}) ${currentExercise.name}',
+                              '${exerciseIndex + 1}) ${currentExercise.name} - ${currentExercise.sets} x ${currentExercise.reps}',
                               style: Theme.of(context)
                                   .textTheme
                                   .displayMedium!

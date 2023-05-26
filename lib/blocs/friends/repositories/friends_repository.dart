@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:synew_gym/constants/db_constants.dart';
 import 'package:synew_gym/models/user_model.dart';
+import 'package:synew_gym/models/workout.dart';
 
 class FriendsRepository {
   final FirebaseFirestore firebaseFirestore;
@@ -34,6 +35,28 @@ class FriendsRepository {
         });
 
     return fetchedUsers;
+  }
+
+  Future<void> shareWorkout(String friendId, Workout workout) async {
+    DocumentReference userDocRef = usersRef.doc(friendId);
+    DocumentSnapshot userDoc = await userDocRef.get();
+
+    try {
+      if (!userDoc.exists) {
+        await userDocRef.set({
+          'workouts': [workout.toJson()],
+        });
+      } else {
+        List<dynamic> workouts = userDoc['workouts'] ?? [];
+        if (workouts.isEmpty) {
+          await userDocRef.update({
+            'workouts': FieldValue.arrayUnion([workout.toJson()])
+          });
+        }
+      }
+    } catch (e) {
+      // print(e);
+    }
   }
 
   Future<void> addFriend(String loggedInUserId, String friendId) async {

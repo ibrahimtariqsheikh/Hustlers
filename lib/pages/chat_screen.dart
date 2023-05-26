@@ -316,22 +316,6 @@ class _ActionBar extends StatelessWidget {
       top: false,
       child: Row(
         children: [
-          Container(
-            decoration: BoxDecoration(
-              border: Border(
-                right: BorderSide(
-                  width: 2,
-                  color: Theme.of(context).dividerColor,
-                ),
-              ),
-            ),
-            child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: Icon(
-                CupertinoIcons.camera_fill,
-              ),
-            ),
-          ),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.only(left: 16.0),
