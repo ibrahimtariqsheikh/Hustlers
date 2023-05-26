@@ -1,11 +1,10 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-// ignore: unused_import
 import 'package:synew_gym/blocs/auth/bloc/auth_bloc.dart';
+import 'package:synew_gym/blocs/date_toggle/cubit/date_toggle_cubit.dart';
 import 'package:synew_gym/blocs/nutrition/bloc/nutrition_bloc.dart';
 import 'package:synew_gym/constants/colors.dart';
 import 'package:synew_gym/constants/helpers.dart';
@@ -15,7 +14,6 @@ import 'package:synew_gym/pages/calories.dart';
 import 'package:synew_gym/pages/manage_goals_page.dart';
 import 'package:synew_gym/widgets/calender_day.dart';
 import 'package:synew_gym/widgets/error_dialog.dart';
-
 import 'package:synew_gym/widgets/login_button.dart';
 import 'package:synew_gym/widgets/my_divider.dart';
 import 'package:synew_gym/widgets/stats_view.dart';
@@ -30,6 +28,13 @@ class NutritionPage extends StatefulWidget {
 }
 
 class _NutritionPageState extends State<NutritionPage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<NutritionBloc>().add(
+        FetchNutrientDataEvent(uid: context.read<AuthBloc>().state.user!.uid));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -406,10 +411,18 @@ class TrackWaterIntakeCard extends StatelessWidget {
                                   ),
                                   actions: [
                                     CupertinoDialogAction(
-                                      child: const Text('Add'),
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(),
-                                    ),
+                                        child: const Text('Add'),
+                                        onPressed: () {
+                                          context.read<NutritionBloc>().add(
+                                                  StoreCurrentWaterConsumedEvent(
+                                                uid: context
+                                                    .read<AuthBloc>()
+                                                    .state
+                                                    .user!
+                                                    .uid,
+                                              ));
+                                          Navigator.of(context).pop();
+                                        }),
                                   ],
                                 ),
                               );
@@ -438,10 +451,18 @@ class TrackWaterIntakeCard extends StatelessWidget {
                                   ),
                                   actions: [
                                     CupertinoDialogAction(
-                                      child: const Text('Add'),
-                                      onPressed: () =>
-                                          Navigator.of(context).pop(),
-                                    ),
+                                        child: const Text('Add'),
+                                        onPressed: () {
+                                          context.read<NutritionBloc>().add(
+                                                  StoreCurrentWaterConsumedEvent(
+                                                uid: context
+                                                    .read<AuthBloc>()
+                                                    .state
+                                                    .user!
+                                                    .uid,
+                                              ));
+                                          Navigator.of(context).pop();
+                                        }),
                                   ],
                                 ),
                               );
@@ -497,7 +518,9 @@ Widget _buildStatsCard(
                   .toInt();
 
           int percentageWater =
-              ((userFoodNutrition.totalWater / 2000) * 100).toInt();
+              ((userFoodNutrition.totalWater / userFoodNutrition.goalWater) *
+                      100)
+                  .toInt();
 
           return Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -541,10 +564,6 @@ Widget _buildStatsCard(
 
 Widget _buildCalenderView(BuildContext context) {
   DateTime now = DateTime.now();
-  int currentDay = now.day;
-  int currentMonth = now.month;
-  int currentYear = now.year;
-
   DateTime firstDayOfWeek = now.subtract(Duration(days: now.weekday - 1));
 
   return Padding(
@@ -557,14 +576,14 @@ Widget _buildCalenderView(BuildContext context) {
           7,
           (dayIndex) {
             DateTime currentDate = firstDayOfWeek.add(Duration(days: dayIndex));
-            bool isSelected = currentDate.day == currentDay &&
-                currentDate.month == currentMonth &&
-                currentDate.year == currentYear;
-
-            return CalenderView(
-              dayText: Helpers.days[dayIndex],
-              day: currentDate.day,
-              isSelected: isSelected,
+            return GestureDetector(
+              onTap: () {
+                context.read<DateToggleCubit>().dateButtonPressed(currentDate);
+              },
+              child: CalenderView(
+                dayText: Helpers.days[dayIndex],
+                date: currentDate,
+              ),
             );
           },
         ),

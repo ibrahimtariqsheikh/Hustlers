@@ -48,11 +48,16 @@ class GetTotalNutritions extends NutritionEvent {
 
 class UpdateCurrentWaterConsumedEvent extends NutritionEvent {
   final String waterConsumed;
-  const UpdateCurrentWaterConsumedEvent({
-    required this.waterConsumed,
-  });
+  const UpdateCurrentWaterConsumedEvent({required this.waterConsumed});
   @override
   List<Object> get props => [waterConsumed];
+}
+
+class StoreCurrentWaterConsumedEvent extends NutritionEvent {
+  final String uid;
+  const StoreCurrentWaterConsumedEvent({required this.uid});
+  @override
+  List<Object> get props => [uid];
 }
 
 class UpdateGoalCaloriesEvent extends NutritionEvent {
@@ -103,6 +108,19 @@ class UpdateGoalProteinsEvent extends NutritionEvent {
 
   @override
   List<Object> get props => [uid, goalProteins];
+}
+
+class UpdateGoalWaterEvent extends NutritionEvent {
+  final String uid;
+  final String goalWater;
+
+  const UpdateGoalWaterEvent({
+    required this.uid,
+    required this.goalWater,
+  });
+
+  @override
+  List<Object> get props => [uid, goalWater];
 }
 
 class UpdateGoalsEvent extends NutritionEvent {

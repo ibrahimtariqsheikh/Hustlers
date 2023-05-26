@@ -14,6 +14,7 @@ import 'package:synew_gym/blocs/cart/cubit/cart_cubit.dart';
 import 'package:synew_gym/blocs/category_toggle/cubit/category_cubit.dart';
 import 'package:synew_gym/blocs/chat/bloc/chat_bloc.dart';
 import 'package:synew_gym/blocs/chat/repository/message_repository.dart';
+import 'package:synew_gym/blocs/date_toggle/cubit/date_toggle_cubit.dart';
 import 'package:synew_gym/blocs/friends/bloc/friends_bloc.dart';
 import 'package:synew_gym/blocs/friends/repositories/friends_repository.dart';
 import 'package:synew_gym/blocs/nutrition/bloc/nutrition_bloc.dart';
@@ -138,6 +139,9 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider<CategoryCubit>(
             create: (context) => CategoryCubit(),
+          ),
+          BlocProvider<DateToggleCubit>(
+            create: (context) => DateToggleCubit(),
           ),
           BlocProvider<CartCubit>(
             create: (context) => CartCubit(),

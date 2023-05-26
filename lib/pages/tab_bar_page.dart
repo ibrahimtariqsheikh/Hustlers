@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:synew_gym/app_theme.dart';
 import 'package:synew_gym/blocs/auth/bloc/auth_bloc.dart';
-import 'package:synew_gym/blocs/nutrition/bloc/nutrition_bloc.dart';
 import 'package:synew_gym/blocs/profile/cubit/profile_cubit.dart';
 import 'package:synew_gym/blocs/tab_bar/cubit/tab_bar_cubit.dart';
 import 'package:synew_gym/blocs/tab_bar/cubit/tab_bar_state.dart';
@@ -44,8 +43,6 @@ class _TabBarPageState extends State<TabBarPage> {
   void _getUserData() {
     final String uid = context.read<AuthBloc>().state.user!.uid;
     context.read<ProfileCubit>().getUserDetails(uid: uid);
-    context.read<NutritionBloc>().add(
-        FetchNutrientDataEvent(uid: context.read<AuthBloc>().state.user!.uid));
   }
 
   @override
