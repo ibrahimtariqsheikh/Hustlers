@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
 part 'date_toggle_state.dart';
 
 class DateToggleCubit extends Cubit<DateState> {

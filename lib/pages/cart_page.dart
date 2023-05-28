@@ -66,7 +66,7 @@ class CartPage extends StatelessWidget {
     Future<void> makePayment() async {
       try {
         paymentIntent = await StripeApiServices().createPaymentIntent(
-            context.read<CartCubit>().state.totalPayment, 'PKR');
+            context.read<CartCubit>().state.totalPayment, 'USD');
 
         await Stripe.instance
             .initPaymentSheet(

@@ -2,10 +2,10 @@ part of 'date_toggle_cubit.dart';
 
 enum DateStatus { initial, loading, loaded, error }
 
-class DateState {
+class DateState extends Equatable {
   final DateTime selectedDate;
 
-  DateState({
+  const DateState({
     required this.selectedDate,
   });
 
@@ -25,4 +25,7 @@ class DateState {
 
   @override
   String toString() => 'DateState(selectedDate: $selectedDate)';
+
+  @override
+  List<Object?> get props => [selectedDate];
 }
