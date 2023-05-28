@@ -59,7 +59,7 @@ class NutritionBloc extends Bloc<NutritionEvent, NutritionState> {
         await nutritionRepository.updateUserFoodNutritionInFirebase(
             uid: event.uid,
             updatedUserFoodNutrition: updatedUserFoodNutrition,
-            date: state.userFoodNutrition.date);
+            date: state.selectedDate);
       } catch (e) {
         emit(state.copyWith(nutririonStatus: NutririonStatus.error));
       }
@@ -75,6 +75,7 @@ class NutritionBloc extends Bloc<NutritionEvent, NutritionState> {
           state.userFoodNutrition.goalProtein,
           state.userFoodNutrition.goalCarbs,
           state.userFoodNutrition.goalWater,
+          state.selectedDate,
         );
         emit(state.copyWith(
           nutririonStatus: NutririonStatus.loaded,
@@ -230,7 +231,7 @@ class NutritionBloc extends Bloc<NutritionEvent, NutritionState> {
         await nutritionRepository.updateUserFoodNutritionInFirebase(
             uid: event.uid,
             updatedUserFoodNutrition: updatedUserFoodNutrition,
-            date: state.userFoodNutrition.date);
+            date: state.selectedDate);
       } catch (e) {
         emit(state.copyWith(
             nutririonStatus: NutririonStatus.error,

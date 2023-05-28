@@ -338,6 +338,7 @@ class TrackWaterIntakeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    TextEditingController waterConsumedContoller = TextEditingController();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: Container(
@@ -398,21 +399,21 @@ class TrackWaterIntakeCard extends StatelessWidget {
                                   content: Padding(
                                     padding: const EdgeInsets.all(20),
                                     child: WorkoutTextField(
-                                      hintText: 'ml',
-                                      label: 'Water ',
-                                      keyboardType: TextInputType.number,
-                                      onChanged: (waterConsumed) {
-                                        context.read<NutritionBloc>().add(
-                                              UpdateCurrentWaterConsumedEvent(
-                                                  waterConsumed: waterConsumed),
-                                            );
-                                      },
-                                    ),
+                                        controller: waterConsumedContoller,
+                                        hintText: 'ml',
+                                        label: 'Water ',
+                                        keyboardType: TextInputType.number,
+                                        onEditingComplete: () {}),
                                   ),
                                   actions: [
                                     CupertinoDialogAction(
                                         child: const Text('Add'),
                                         onPressed: () {
+                                          context.read<NutritionBloc>().add(
+                                                  UpdateCurrentWaterConsumedEvent(
+                                                waterConsumed:
+                                                    waterConsumedContoller.text,
+                                              ));
                                           context.read<NutritionBloc>().add(
                                                   StoreCurrentWaterConsumedEvent(
                                                 uid: context
@@ -438,21 +439,22 @@ class TrackWaterIntakeCard extends StatelessWidget {
                                   content: Padding(
                                     padding: const EdgeInsets.all(20),
                                     child: WorkoutTextField(
-                                      hintText: 'ml',
-                                      label: 'Water (ml)',
-                                      keyboardType: TextInputType.number,
-                                      onChanged: (waterConsumed) {
-                                        context.read<NutritionBloc>().add(
-                                              UpdateCurrentWaterConsumedEvent(
-                                                  waterConsumed: waterConsumed),
-                                            );
-                                      },
-                                    ),
+                                        controller: waterConsumedContoller,
+                                        hintText: 'ml',
+                                        label: 'Water ',
+                                        keyboardType: TextInputType.number,
+                                        onEditingComplete: () {}),
                                   ),
                                   actions: [
                                     CupertinoDialogAction(
                                         child: const Text('Add'),
                                         onPressed: () {
+                                          context.read<NutritionBloc>().add(
+                                                UpdateCurrentWaterConsumedEvent(
+                                                    waterConsumed:
+                                                        waterConsumedContoller
+                                                            .text),
+                                              );
                                           context.read<NutritionBloc>().add(
                                                   StoreCurrentWaterConsumedEvent(
                                                 uid: context
@@ -579,6 +581,10 @@ Widget _buildCalenderView(BuildContext context) {
             return GestureDetector(
               onTap: () {
                 context.read<DateToggleCubit>().dateButtonPressed(currentDate);
+                context.read<NutritionBloc>().state.selectedDate =
+                    '${currentDate.day}-${currentDate.month}-${currentDate.year}';
+                context.read<NutritionBloc>().add(FetchNutrientDataEvent(
+                    uid: context.read<AuthBloc>().state.user!.uid));
               },
               child: CalenderView(
                 dayText: Helpers.days[dayIndex],

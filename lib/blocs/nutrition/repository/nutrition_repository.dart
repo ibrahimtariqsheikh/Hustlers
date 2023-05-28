@@ -47,13 +47,16 @@ class NutritionRepository {
     }
   }
 
-  Future<void> updateGoals(String uid, double goalCalories, double goalFat,
-      double goalProtein, double goalCarbs, double goalWater) async {
-    DocumentReference nutrientsDoc = nutrientsRef
-        .doc(uid)
-        .collection('NutritionDataByDate')
-        .doc(
-            '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}');
+  Future<void> updateGoals(
+      String uid,
+      double goalCalories,
+      double goalFat,
+      double goalProtein,
+      double goalCarbs,
+      double goalWater,
+      String date) async {
+    DocumentReference nutrientsDoc =
+        nutrientsRef.doc(uid).collection('NutritionDataByDate').doc(date);
     await nutrientsDoc.update({
       'goalCalories': goalCalories,
       'goalFat': goalFat,
@@ -63,48 +66,37 @@ class NutritionRepository {
     });
   }
 
-  Future<void> updateGoalWater(String uid, double waterGoal) async {
-    DocumentReference nutrientsDoc = nutrientsRef
-        .doc(uid)
-        .collection('NutritionDataByDate')
-        .doc(
-            '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}');
+  Future<void> updateGoalWater(
+      String uid, double waterGoal, String date) async {
+    DocumentReference nutrientsDoc =
+        nutrientsRef.doc(uid).collection('NutritionDataByDate').doc(date);
     await nutrientsDoc.update({'goalWater': waterGoal});
   }
 
-  Future<void> updateGoalCarbs(String uid, double carbsGoal) async {
-    DocumentReference nutrientsDoc = nutrientsRef
-        .doc(uid)
-        .collection('NutritionDataByDate')
-        .doc(
-            '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}');
+  Future<void> updateGoalCarbs(
+      String uid, double carbsGoal, String date) async {
+    DocumentReference nutrientsDoc =
+        nutrientsRef.doc(uid).collection('NutritionDataByDate').doc(date);
     await nutrientsDoc.update({'goalCarbs': carbsGoal});
   }
 
-  Future<void> updateGoalFat(String uid, double fatGoal) async {
-    DocumentReference nutrientsDoc = nutrientsRef
-        .doc(uid)
-        .collection('NutritionDataByDate')
-        .doc(
-            '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}');
+  Future<void> updateGoalFat(String uid, double fatGoal, String date) async {
+    DocumentReference nutrientsDoc =
+        nutrientsRef.doc(uid).collection('NutritionDataByDate').doc(date);
     await nutrientsDoc.update({'goalFat': fatGoal});
   }
 
-  Future<void> updateGoalProtein(String uid, double proteinGoal) async {
-    DocumentReference nutrientsDoc = nutrientsRef
-        .doc(uid)
-        .collection('NutritionDataByDate')
-        .doc(
-            '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}');
+  Future<void> updateGoalProtein(
+      String uid, double proteinGoal, String date) async {
+    DocumentReference nutrientsDoc =
+        nutrientsRef.doc(uid).collection('NutritionDataByDate').doc(date);
     await nutrientsDoc.update({'goalProtein': proteinGoal});
   }
 
-  Future<void> updateGoalCalories(String uid, double caloriesGoal) async {
-    DocumentReference nutrientsDoc = nutrientsRef
-        .doc(uid)
-        .collection('NutritionDataByDate')
-        .doc(
-            '${DateTime.now().day}-${DateTime.now().month}-${DateTime.now().year}');
+  Future<void> updateGoalCalories(
+      String uid, double caloriesGoal, String date) async {
+    DocumentReference nutrientsDoc =
+        nutrientsRef.doc(uid).collection('NutritionDataByDate').doc(date);
     await nutrientsDoc.update({'goalCalories': caloriesGoal});
   }
 

@@ -12,9 +12,9 @@ class NutritionState extends Equatable {
   final List<Food> foodItems;
   final UserFoodNutrition userFoodNutrition;
   final CustomError error;
-  final String selectedDate;
+  String selectedDate;
 
-  const NutritionState({
+  NutritionState({
     required this.nutririonStatus,
     required this.foodItems,
     required this.userFoodNutrition,

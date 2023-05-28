@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/animation.dart';
 
-class StatsView extends StatelessWidget {
+class StatsView extends StatefulWidget {
   final String text;
   final double value;
   final Color color;
@@ -15,8 +16,34 @@ class StatsView extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  State<StatsView> createState() => _StatsViewState();
+}
+
+class _StatsViewState extends State<StatsView>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late _FillPainter _fillPainter;
+
+  @override
+  void initState() {
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(seconds: 1), // Set the desired animation duration
+    );
+    _fillPainter = _FillPainter(_controller, widget.color, widget.percentage);
+    _controller.forward();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    int intValue = value.toInt();
+    int intValue = widget.value.toInt();
     return Column(
       children: [
         Container(
@@ -24,20 +51,19 @@ class StatsView extends StatelessWidget {
           width: 50,
           height: 160,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(50),
-              border: Border.all(
-                color: Theme.of(context).colorScheme.onTertiary,
-              )),
+            borderRadius: BorderRadius.circular(50),
+            border: Border.all(
+              color: Theme.of(context).colorScheme.onTertiary,
+            ),
+          ),
           child: Stack(
             children: [
               CustomPaint(
-                painter: _FillPainter(percentage, color),
+                painter: _fillPainter,
                 child: Container(),
               ),
               Positioned(
-                top: (160 -
-                        (100 * (percentage > 100 ? 100 : percentage) / 100)) -
-                    50,
+                bottom: 5,
                 right: 0,
                 left: 0,
                 child: CircleAvatar(
@@ -58,7 +84,7 @@ class StatsView extends StatelessWidget {
           height: 10,
         ),
         Text(
-          text,
+          widget.text,
           style: TextStyle(color: Theme.of(context).iconTheme.color),
         ),
       ],
@@ -66,17 +92,29 @@ class StatsView extends StatelessWidget {
   }
 }
 
-class _FillPainter extends CustomPainter {
-  final int percentage;
+class _FillPainter extends CustomPainter with ChangeNotifier {
+  final AnimationController controller;
+  final Animation<double> animation;
   final Color color;
+  final int percentage;
 
-  _FillPainter(this.percentage, this.color);
+  _FillPainter(this.controller, this.color, this.percentage)
+      : animation = Tween<double>(
+                begin: 0.0,
+                end: (percentage < 32)
+                    ? 0.32
+                    : (percentage > 100)
+                        ? 1.0
+                        : percentage.toDouble() / 100)
+            .animate(controller) {
+    controller.addListener(() {
+      notifyListeners();
+    });
+  }
 
   @override
   void paint(Canvas canvas, Size size) {
-    double minHeight = 55;
-    double fillHeight = minHeight +
-        (size.height - minHeight) * (percentage > 100 ? 100 : percentage) / 100;
+    double fillHeight = size.height * animation.value;
     Paint fillPaint = Paint()..color = color;
 
     RRect inner = RRect.fromLTRBR(
