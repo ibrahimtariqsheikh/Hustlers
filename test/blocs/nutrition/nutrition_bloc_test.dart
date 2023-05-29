@@ -34,7 +34,7 @@ void main() {
       act: (bloc) => bloc.add(const FetchNutrientDataEvent(uid: '')),
       expect: () => <NutritionState>[
         NutritionState(
-            foodItems: [],
+            foodItems: const [],
             selectedDate: '',
             error: const CustomError(code: '', message: '', plugin: ''),
             nutririonStatus: NutririonStatus.loading,
@@ -82,7 +82,7 @@ void main() {
               totalWater: 0,
             )),
         NutritionState(
-            foodItems: [],
+            foodItems: const [],
             selectedDate: '',
             error: const CustomError(code: '', message: '', plugin: ''),
             nutririonStatus: NutririonStatus.loaded,
@@ -142,7 +142,7 @@ void main() {
       act: (bloc) => bloc.add(const FetchNutrientDataEvent(uid: '')),
       expect: () => <NutritionState>[
         NutritionState(
-            foodItems: [],
+            foodItems: const [],
             selectedDate: '',
             error: const CustomError(code: '', message: '', plugin: ''),
             nutririonStatus: NutririonStatus.loading,
@@ -161,7 +161,7 @@ void main() {
               totalWater: 0,
             )),
         NutritionState(
-            foodItems: [],
+            foodItems: const [],
             selectedDate: '',
             error: const CustomError(code: '', message: '', plugin: ''),
             nutririonStatus: NutririonStatus.error,

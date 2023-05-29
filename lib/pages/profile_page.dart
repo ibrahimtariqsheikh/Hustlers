@@ -129,244 +129,200 @@ class NutritionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String remainingCalories = (context
-                    .read<NutritionBloc>()
-                    .state
-                    .userFoodNutrition
-                    .goalCalories -
-                context
-                    .read<NutritionBloc>()
-                    .state
-                    .userFoodNutrition
-                    .totalCalories) >
-            0
-        ? (context.read<NutritionBloc>().state.userFoodNutrition.goalCalories -
-                context
-                    .read<NutritionBloc>()
-                    .state
-                    .userFoodNutrition
-                    .totalCalories)
-            .toStringAsFixed(0)
-        : '0';
-    String remainingCarbs =
-        (context.read<NutritionBloc>().state.userFoodNutrition.goalCarbs -
-                    context
-                        .read<NutritionBloc>()
-                        .state
-                        .userFoodNutrition
-                        .totalCarbs) >
+    return BlocBuilder<NutritionBloc, NutritionState>(
+      builder: (context, state) {
+        String remainingCalories = (state.userFoodNutrition.goalCalories -
+                    state.userFoodNutrition.totalCalories) >
                 0
-            ? (context.read<NutritionBloc>().state.userFoodNutrition.goalCarbs -
-                    context
-                        .read<NutritionBloc>()
-                        .state
-                        .userFoodNutrition
-                        .totalCarbs)
+            ? (state.userFoodNutrition.goalCalories -
+                    state.userFoodNutrition.totalCalories)
                 .toStringAsFixed(0)
             : '0';
-    String remainingFat = (context
-                    .read<NutritionBloc>()
-                    .state
-                    .userFoodNutrition
-                    .goalFat -
-                context
-                    .read<NutritionBloc>()
-                    .state
-                    .userFoodNutrition
-                    .totalFat) >
-            0
-        ? (context.read<NutritionBloc>().state.userFoodNutrition.goalFat -
-                context.read<NutritionBloc>().state.userFoodNutrition.totalFat)
-            .toStringAsFixed(0)
-        : '0';
-    String remainingProtein = (context
-                    .read<NutritionBloc>()
-                    .state
-                    .userFoodNutrition
-                    .goalProtein -
-                context
-                    .read<NutritionBloc>()
-                    .state
-                    .userFoodNutrition
-                    .totalProtein) >
-            0
-        ? (context.read<NutritionBloc>().state.userFoodNutrition.goalProtein -
-                context
-                    .read<NutritionBloc>()
-                    .state
-                    .userFoodNutrition
-                    .totalProtein)
-            .toStringAsFixed(0)
-        : '0';
-    String remainingWater = (context
-                    .read<NutritionBloc>()
-                    .state
-                    .userFoodNutrition
-                    .goalWater -
-                context
-                    .read<NutritionBloc>()
-                    .state
-                    .userFoodNutrition
-                    .totalWater) >
-            0
-        ? ((context.read<NutritionBloc>().state.userFoodNutrition.goalWater -
-                context
-                    .read<NutritionBloc>()
-                    .state
-                    .userFoodNutrition
-                    .totalWater)
-            .toStringAsFixed(0))
-        : '0';
+        String remainingCarbs = (state.userFoodNutrition.goalCarbs -
+                    state.userFoodNutrition.totalCarbs) >
+                0
+            ? (state.userFoodNutrition.goalCarbs -
+                    state.userFoodNutrition.totalCarbs)
+                .toStringAsFixed(0)
+            : '0';
+        String remainingFat = (state.userFoodNutrition.goalFat -
+                    state.userFoodNutrition.totalFat) >
+                0
+            ? (state.userFoodNutrition.goalFat -
+                    state.userFoodNutrition.totalFat)
+                .toStringAsFixed(0)
+            : '0';
+        String remainingProtein = (state.userFoodNutrition.goalProtein -
+                    state.userFoodNutrition.totalProtein) >
+                0
+            ? (state.userFoodNutrition.goalProtein -
+                    state.userFoodNutrition.totalProtein)
+                .toStringAsFixed(0)
+            : '0';
 
-    double remainingCaloriesPercentage =
-        (context.read<NutritionBloc>().state.userFoodNutrition.totalCalories /
-            context.read<NutritionBloc>().state.userFoodNutrition.goalCalories);
-    double remainingCarbsPercentage =
-        (context.read<NutritionBloc>().state.userFoodNutrition.totalCarbs /
-            context.read<NutritionBloc>().state.userFoodNutrition.goalCarbs);
-    double remainingFatPercentage =
-        (context.read<NutritionBloc>().state.userFoodNutrition.totalFat /
-            context.read<NutritionBloc>().state.userFoodNutrition.goalFat);
-    double remainingProteinPercentage =
-        (context.read<NutritionBloc>().state.userFoodNutrition.totalProtein /
-            context.read<NutritionBloc>().state.userFoodNutrition.goalProtein);
-    double remainingWaterPercentage =
-        (context.read<NutritionBloc>().state.userFoodNutrition.totalWater /
-            context.read<NutritionBloc>().state.userFoodNutrition.goalWater);
+        String remainingWater = (state.userFoodNutrition.goalWater -
+                    state.userFoodNutrition.totalWater) >
+                0
+            ? ((state.userFoodNutrition.goalWater -
+                    state.userFoodNutrition.totalWater)
+                .toStringAsFixed(0))
+            : '0';
+        double remainingCaloriesPercentage =
+            (state.userFoodNutrition.totalCalories /
+                state.userFoodNutrition.goalCalories);
+        double remainingCarbsPercentage = (state.userFoodNutrition.totalCarbs /
+            state.userFoodNutrition.goalCarbs);
+        double remainingFatPercentage = (state.userFoodNutrition.totalFat /
+            state.userFoodNutrition.goalFat);
+        double remainingProteinPercentage =
+            (state.userFoodNutrition.totalProtein /
+                state.userFoodNutrition.goalProtein);
+        double remainingWaterPercentage = (state.userFoodNutrition.totalWater /
+            state.userFoodNutrition.goalWater);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Icon(
-              FontAwesomeIcons.nutritionix,
-              color: Colors.green,
+            Row(
+              children: [
+                const Icon(
+                  FontAwesomeIcons.nutritionix,
+                  color: Colors.green,
+                ),
+                const SizedBox(
+                  width: 3,
+                ),
+                Text(
+                  'Todays Nutritions',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .copyWith(color: Colors.green),
+                ),
+              ],
             ),
-            const SizedBox(
-              width: 3,
-            ),
-            Text(
-              'Todays Nutritions',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyLarge!
-                  .copyWith(color: Colors.green),
-            ),
-          ],
-        ),
-        const Spacer(flex: 3),
-        Row(
-          children: [
-            Text(
-              'Calories Left: ',
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                    fontSize: 15,
-                  ),
-            ),
-            Text('$remainingCalories Kcal'),
-            const Spacer(),
-            CircularProgress(
-              color: Colors.red,
-              width: 20,
-              height: 20,
-              percentage: remainingCaloriesPercentage,
-              paintWidth: 3,
-            ),
-          ],
-        ),
-        const Spacer(),
-        Row(
-          children: [
-            Text(
-              'Carbs Left: ',
-              style:
-                  Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 15),
-            ),
-            Text('${remainingCarbs}g'),
-            const SizedBox(
-              width: 10,
+            const Spacer(flex: 3),
+            Row(
+              children: [
+                Text(
+                  'Calories Left: ',
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        fontSize: 15,
+                      ),
+                ),
+                Text('$remainingCalories Kcal'),
+                const Spacer(),
+                CircularProgress(
+                  color: Colors.red,
+                  width: 20,
+                  height: 20,
+                  percentage: remainingCaloriesPercentage,
+                  paintWidth: 3,
+                ),
+              ],
             ),
             const Spacer(),
-            CircularProgress(
-              color: Colors.blue,
-              width: 20,
-              height: 20,
-              percentage: remainingCarbsPercentage,
-              paintWidth: 3,
-            ),
-          ],
-        ),
-        const Spacer(),
-        Row(
-          children: [
-            Text(
-              'Protein Left: ',
-              style:
-                  Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 15),
-            ),
-            Text('${remainingProtein}g'),
-            const SizedBox(
-              width: 10,
-            ),
-            const Spacer(),
-            CircularProgress(
-              color: Colors.green,
-              width: 20,
-              height: 20,
-              percentage: remainingProteinPercentage,
-              paintWidth: 3,
-            ),
-          ],
-        ),
-        const Spacer(),
-        Row(
-          children: [
-            Text(
-              'Fat Left: ',
-              style:
-                  Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 15),
-            ),
-            Text('${remainingFat}g'),
-            const SizedBox(
-              width: 10,
+            Row(
+              children: [
+                Text(
+                  'Carbs Left: ',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .copyWith(fontSize: 15),
+                ),
+                Text('$remainingCarbs g'),
+                const SizedBox(
+                  width: 10,
+                ),
+                const Spacer(),
+                CircularProgress(
+                  color: Colors.blue,
+                  width: 20,
+                  height: 20,
+                  percentage: remainingCarbsPercentage,
+                  paintWidth: 3,
+                ),
+              ],
             ),
             const Spacer(),
-            CircularProgress(
-              color: Colors.lime,
-              width: 20,
-              height: 20,
-              percentage: remainingFatPercentage,
-              paintWidth: 3,
-            ),
-          ],
-        ),
-        const Spacer(),
-        Row(
-          children: [
-            Text(
-              'Water Left: ',
-              style:
-                  Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 15),
-            ),
-            Text('${remainingWater}g'),
-            const SizedBox(
-              width: 10,
+            Row(
+              children: [
+                Text(
+                  'Protein Left: ',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .copyWith(fontSize: 15),
+                ),
+                Text('$remainingProtein g'),
+                const SizedBox(
+                  width: 10,
+                ),
+                const Spacer(),
+                CircularProgress(
+                  color: Colors.green,
+                  width: 20,
+                  height: 20,
+                  percentage: remainingProteinPercentage,
+                  paintWidth: 3,
+                ),
+              ],
             ),
             const Spacer(),
-            CircularProgress(
-              color: Colors.orange,
-              width: 20,
-              height: 20,
-              percentage: remainingWaterPercentage,
-              paintWidth: 3,
+            Row(
+              children: [
+                Text(
+                  'Fat Left: ',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .copyWith(fontSize: 15),
+                ),
+                Text('$remainingFat g'),
+                const SizedBox(
+                  width: 10,
+                ),
+                const Spacer(),
+                CircularProgress(
+                  color: Colors.lime,
+                  width: 20,
+                  height: 20,
+                  percentage: remainingFatPercentage,
+                  paintWidth: 3,
+                ),
+              ],
+            ),
+            const Spacer(),
+            Row(
+              children: [
+                Text(
+                  'Water Left: ',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyLarge!
+                      .copyWith(fontSize: 15),
+                ),
+                Text('$remainingWater ml'),
+                const SizedBox(
+                  width: 10,
+                ),
+                const Spacer(),
+                CircularProgress(
+                  color: Colors.orange,
+                  width: 20,
+                  height: 20,
+                  percentage: remainingWaterPercentage,
+                  paintWidth: 3,
+                ),
+              ],
+            ),
+            const Spacer(
+              flex: 3,
             ),
           ],
-        ),
-        const Spacer(
-          flex: 3,
-        ),
-      ],
+        );
+      },
     );
   }
 }
@@ -466,6 +422,16 @@ class HeartRateSleepCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    int sleepHours;
+    int sleepMins;
+    if (heartRate == 'N/A' || sleepInBed == 'N/A') {
+      sleepHours = 0;
+      sleepMins = 0;
+    } else {
+      sleepHours = double.parse(sleepInBed) ~/ 60;
+      sleepMins = (double.parse(sleepInBed) % 60).toInt();
+    }
+
     return Row(
       children: [
         Column(
@@ -520,7 +486,7 @@ class HeartRateSleepCard extends StatelessWidget {
               ],
             ),
             Text(
-              '${double.parse(sleepInBed) ~/ 60} hrs ${(double.parse(sleepInBed) % 60).toInt()} mins',
+              '$sleepHours hrs $sleepMins mins',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ],

@@ -1,9 +1,9 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+// ignore: depend_on_referenced_packages
 import 'package:mocktail/mocktail.dart';
 import 'package:synew_gym/blocs/product/bloc/product_bloc.dart';
 import 'package:synew_gym/blocs/product/repository/shop_repository.dart';
-import 'package:synew_gym/models/category.dart';
 import 'package:synew_gym/models/custom_error.dart';
 import 'package:synew_gym/models/products.dart';
 

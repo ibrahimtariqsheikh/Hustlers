@@ -25,14 +25,6 @@ void main() {
   group('WorkoutCubit', () {
     Exercise exercise = const Exercise(
         name: 'Exercise 1', isCompleted: false, reps: [], sets: 0, weights: []);
-    Workout workout = Workout(
-        days: [],
-        isSelected: false,
-        name: 'Workout',
-        exerciseData: [
-          ExerciseData(name: 'Day 1', exercises: [exercise]),
-          ExerciseData(name: 'Day 2', exercises: []),
-        ]);
 
     test('initial state is correct', () {
       expect(workoutCubit.state, WorkoutState.initial());
@@ -64,15 +56,15 @@ void main() {
                               weights: [],
                               isCompleted: false)
                         ]),
-                        ExerciseData(name: '', exercises: []),
-                        ExerciseData(name: '', exercises: []),
-                        ExerciseData(name: '', exercises: []),
-                        ExerciseData(name: '', exercises: []),
+                        ExerciseData(name: '', exercises: const []),
+                        ExerciseData(name: '', exercises: const []),
+                        ExerciseData(name: '', exercises: const []),
+                        ExerciseData(name: '', exercises: const []),
                         ExerciseData(
                           name: '',
-                          exercises: [],
+                          exercises: const [],
                         ),
-                        ExerciseData(name: '', exercises: [])
+                        ExerciseData(name: '', exercises: const [])
                       ],
                       isSelected: false)),
               WorkoutState(
@@ -97,12 +89,12 @@ void main() {
                               weights: [],
                               isCompleted: false)
                         ]),
-                        ExerciseData(name: '', exercises: []),
-                        ExerciseData(name: '', exercises: []),
-                        ExerciseData(name: '', exercises: []),
-                        ExerciseData(name: '', exercises: []),
-                        ExerciseData(name: '', exercises: []),
-                        ExerciseData(name: '', exercises: [])
+                        ExerciseData(name: '', exercises: const []),
+                        ExerciseData(name: '', exercises: const []),
+                        ExerciseData(name: '', exercises: const []),
+                        ExerciseData(name: '', exercises: const []),
+                        ExerciseData(name: '', exercises: const []),
+                        ExerciseData(name: '', exercises: const [])
                       ],
                       isSelected: false))
             ]);
@@ -122,12 +114,12 @@ void main() {
                   false,
                   false
                 ], exerciseData: [
-                  ExerciseData(name: '', exercises: []),
-                  ExerciseData(name: '', exercises: []),
-                  ExerciseData(name: '', exercises: []),
-                  ExerciseData(name: '', exercises: []),
-                  ExerciseData(name: '', exercises: []),
-                  ExerciseData(name: '', exercises: []),
+                  ExerciseData(name: '', exercises: const []),
+                  ExerciseData(name: '', exercises: const []),
+                  ExerciseData(name: '', exercises: const []),
+                  ExerciseData(name: '', exercises: const []),
+                  ExerciseData(name: '', exercises: const []),
+                  ExerciseData(name: '', exercises: const []),
                   ExerciseData(name: '', exercises: const [])
                 ], isSelected: false, name: 'New Workout'),
                 status: WorkoutStatus.initial,
@@ -149,12 +141,12 @@ void main() {
             false,
             false
           ], exerciseData: [
-            ExerciseData(name: 'New Day Title', exercises: []),
-            ExerciseData(name: '', exercises: []),
-            ExerciseData(name: '', exercises: []),
-            ExerciseData(name: '', exercises: []),
-            ExerciseData(name: '', exercises: []),
-            ExerciseData(name: '', exercises: []),
+            ExerciseData(name: 'New Day Title', exercises: const []),
+            ExerciseData(name: '', exercises: const []),
+            ExerciseData(name: '', exercises: const []),
+            ExerciseData(name: '', exercises: const []),
+            ExerciseData(name: '', exercises: const []),
+            ExerciseData(name: '', exercises: const []),
             ExerciseData(name: '', exercises: const [])
           ], isSelected: false, name: ''),
           status: WorkoutStatus.initial,
@@ -173,13 +165,13 @@ void main() {
                 name: '',
                 days: const [false, false, false, false, false, false, false],
                 exerciseData: [
-                  ExerciseData(name: '', exercises: []),
-                  ExerciseData(name: '', exercises: []),
-                  ExerciseData(name: '', exercises: []),
-                  ExerciseData(name: '', exercises: []),
-                  ExerciseData(name: '', exercises: []),
-                  ExerciseData(name: '', exercises: []),
-                  ExerciseData(name: '', exercises: [])
+                  ExerciseData(name: '', exercises: const []),
+                  ExerciseData(name: '', exercises: const []),
+                  ExerciseData(name: '', exercises: const []),
+                  ExerciseData(name: '', exercises: const []),
+                  ExerciseData(name: '', exercises: const []),
+                  ExerciseData(name: '', exercises: const []),
+                  ExerciseData(name: '', exercises: const [])
                 ],
                 isSelected: false)),
       ],

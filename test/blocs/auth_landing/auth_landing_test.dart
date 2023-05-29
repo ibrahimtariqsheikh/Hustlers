@@ -1,5 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
+// ignore: depend_on_referenced_packages
 import 'package:mocktail/mocktail.dart';
 import 'package:synew_gym/blocs/auth/repository/auth_repository.dart';
 import 'package:synew_gym/blocs/auth_landing/cubit/auth_landing_cubit.dart';
