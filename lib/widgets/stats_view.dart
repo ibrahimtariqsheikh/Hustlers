@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/animation.dart';
 
 class StatsView extends StatefulWidget {
   final String text;
@@ -28,7 +27,8 @@ class _StatsViewState extends State<StatsView>
   void initState() {
     _controller = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 1), // Set the desired animation duration
+      duration:
+          const Duration(seconds: 1), // Set the desired animation duration
     );
     _fillPainter = _FillPainter(_controller, widget.color, widget.percentage);
     _controller.forward();

@@ -66,7 +66,7 @@ class CartPage extends StatelessWidget {
     Future<void> makePayment() async {
       try {
         paymentIntent = await StripeApiServices().createPaymentIntent(
-            context.read<CartCubit>().state.totalPayment, 'USD');
+            (context.read<CartCubit>().state.totalPayment).toInt(), 'USD');
 
         await Stripe.instance
             .initPaymentSheet(
@@ -74,10 +74,13 @@ class CartPage extends StatelessWidget {
                     paymentIntentClientSecret: paymentIntent!['client_secret'],
                     style: ThemeMode.dark,
                     merchantDisplayName: 'Hustlers'))
-            .then((value) {});
+            .then((value) {
+          print('payment sheet initiated');
+        });
 
         displayPaymentSheet();
       } catch (err) {
+        print(err);
         throw Exception(err);
       }
     }

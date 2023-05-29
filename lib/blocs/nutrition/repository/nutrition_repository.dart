@@ -13,6 +13,9 @@ class NutritionRepository {
 
   Future<UserFoodNutrition> fetchUserNutrientsData(
       String uid, String date) async {
+    if (uid == '' || date == '') {
+      return UserFoodNutrition.initial();
+    }
     final DocumentSnapshot userNutrientsDoc = await nutrientsRef
         .doc(uid)
         .collection('NutritionDataByDate')

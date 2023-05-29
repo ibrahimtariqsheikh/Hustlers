@@ -7,6 +7,7 @@ enum NutririonStatus {
   error,
 }
 
+// ignore: must_be_immutable
 class NutritionState extends Equatable {
   final NutririonStatus nutririonStatus;
   final List<Food> foodItems;

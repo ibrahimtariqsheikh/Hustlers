@@ -1,13 +1,12 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import '../../../.env';
 
 class StripeApiServices {
-  createPaymentIntent(double amount, String currency) async {
+  createPaymentIntent(int amount, String currency) async {
     try {
       Map<String, dynamic> body = {
-        'amount': amount.toString(),
+        'amount': (amount * 100).toString(),
         'currency': currency,
       };
 
@@ -21,6 +20,7 @@ class StripeApiServices {
       );
       return json.decode(response.body);
     } catch (err) {
+      print('ERROR-------------------------- $err');
       throw Exception(err.toString());
     }
   }
