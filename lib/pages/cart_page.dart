@@ -39,6 +39,11 @@ class CartPage extends StatelessWidget {
                     ),
                   ));
 
+          Future.delayed(const Duration(seconds: 3), () {
+            // Navigate to other page
+            Navigator.popAndPushNamed(context, '/tabbar');
+          });
+
           paymentIntent = null;
         }).onError((error, stackTrace) {
           throw Exception(error);
@@ -74,13 +79,10 @@ class CartPage extends StatelessWidget {
                     paymentIntentClientSecret: paymentIntent!['client_secret'],
                     style: ThemeMode.dark,
                     merchantDisplayName: 'Hustlers'))
-            .then((value) {
-          print('payment sheet initiated');
-        });
+            .then((value) {});
 
         displayPaymentSheet();
       } catch (err) {
-        print(err);
         throw Exception(err);
       }
     }
