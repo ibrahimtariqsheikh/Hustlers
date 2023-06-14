@@ -20,7 +20,6 @@ class StripeApiServices {
       );
       return json.decode(response.body);
     } catch (err) {
-      print('ERROR-------------------------- $err');
       throw Exception(err.toString());
     }
   }
